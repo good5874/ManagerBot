@@ -3,6 +3,8 @@ using ManagerBot.DAL.Entity;
 using ManagerBot.DAL.Entity.Enums;
 using ManagerBot.Models;
 
+using System.Collections.Generic;
+
 using Telegram.Bot.Args;
 
 namespace ManagerBot.Commands
@@ -11,11 +13,16 @@ namespace ManagerBot.Commands
     {
         public string Name { get; } = "Регистрация";
 
+        public List<UserEvent> Events => new List<UserEvent>() 
+        {
+            UserEvent.FirstVisit, UserEvent.Registration
+        };
+
         public RequestResultModel Execute(MessageEventArgs message, UserEntity user)
         {
-            if (user.CurrentEvent == UserEventsEnum.FirstVisit)
+            if (user.CurrentEvent == UserEvent.FirstVisit)
             {
-                user.CurrentEvent = UserEventsEnum.Registration;
+                user.CurrentEvent = UserEvent.Registration;
 
                 return new RequestResultModel()
                 {
@@ -24,7 +31,7 @@ namespace ManagerBot.Commands
                 };
             }
 
-            if(user.CurrentEvent == UserEventsEnum.Registration)
+            if(user.CurrentEvent == UserEvent.Registration)
             {
                 if (string.IsNullOrEmpty(user.FullName))
                 {
@@ -58,7 +65,7 @@ namespace ManagerBot.Commands
                     }
 
                     user.Email = message.Message.Text;
-                    user.CurrentEvent = UserEventsEnum.ConfirmEmail;
+                    user.CurrentEvent = UserEvent.ConfirmEmail;
 
                     //TODO: Отправить код на почту
 
@@ -71,7 +78,7 @@ namespace ManagerBot.Commands
                 }
             }
 
-            if(user.CurrentEvent == UserEventsEnum.ConfirmEmail)
+            if(user.CurrentEvent == UserEvent.ConfirmEmail)
             {
                 return null;
             }

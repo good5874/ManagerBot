@@ -1,18 +1,19 @@
 ﻿using Microsoft.EntityFrameworkCore;
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 
-namespace ManagerBot.DAL.DataBase.Abstract
+namespace ManagerBot.DAL.DataBase.Repositories.Abstract
 {
-    public abstract class BaseRepository<TEntity> : IBaseRepository<TEntity> where TEntity: class
+    public abstract class BaseRepository<TEntity> : IBaseRepository<TEntity> where TEntity : class
     {
         private readonly BotDbContext _context;
         private readonly DbSet<TEntity> _dbSet;
 
-        public BaseRepository(BotDbContext  context)
+        public BaseRepository(BotDbContext context)
         {
             _context = context ?? throw new ArgumentNullException(nameof(context));
             _dbSet = _context.Set<TEntity>();

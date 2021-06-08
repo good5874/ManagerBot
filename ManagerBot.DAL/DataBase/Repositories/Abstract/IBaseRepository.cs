@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 
-namespace ManagerBot.DAL.DataBase.Abstract
+namespace ManagerBot.DAL.DataBase.Repositories.Abstract
 {
     public interface IBaseRepository<TEntity> where TEntity : class
     {

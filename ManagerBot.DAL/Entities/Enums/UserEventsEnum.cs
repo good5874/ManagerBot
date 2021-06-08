@@ -1,6 +1,6 @@
 ﻿namespace ManagerBot.DAL.Entity.Enums
 {
-    public enum UserEventsEnum
+    public enum UserEvent
     {
         FirstVisit,
         Registration,
