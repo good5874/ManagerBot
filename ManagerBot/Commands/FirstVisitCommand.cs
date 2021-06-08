@@ -1,6 +1,7 @@
 ﻿using ManagerBot.Commands.Abstract;
+using ManagerBot.DAL.Entity;
+using ManagerBot.DAL.Entity.Enums;
 using ManagerBot.Models;
-using ManagerBot.Models.Enums;
 
 using Telegram.Bot.Args;
 
@@ -10,7 +11,7 @@ namespace ManagerBot.Commands
     {
         public string Name { get; } = string.Empty;
 
-        public RequestResultModel Execute(MessageEventArgs message, UserModel user)
+        public RequestResultModel Execute(MessageEventArgs message, UserEntity user)
         {
             user.CurrentEvent = UserEventsEnum.FirstVisit;
 

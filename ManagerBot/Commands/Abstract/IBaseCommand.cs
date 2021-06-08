@@ -1,4 +1,5 @@
-﻿using ManagerBot.Models;
+﻿using ManagerBot.DAL.Entity;
+using ManagerBot.Models;
 
 using Telegram.Bot.Args;
 
@@ -7,6 +8,6 @@ namespace ManagerBot.Commands.Abstract
     public interface IBaseCommand
     {
         public string Name { get; }
-        public RequestResultModel Execute(MessageEventArgs message, UserModel user);
+        public RequestResultModel Execute(MessageEventArgs message, UserEntity user);
     }
 }

@@ -13,4 +13,8 @@
     <Folder Include="Commands\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\ManagerBot.DAL\ManagerBot.DAL.csproj" />
+  </ItemGroup>
+
 </Project>
