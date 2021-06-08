@@ -1,8 +1,7 @@
-﻿using ManagerBot.Models;
-
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 using Telegram.Bot;
+using Telegram.Bot.Types;
 
 namespace ManagerBot.Services
 {

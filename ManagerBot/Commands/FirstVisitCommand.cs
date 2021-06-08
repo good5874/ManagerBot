@@ -12,7 +12,7 @@ namespace ManagerBot.Commands
 
         public RequestResultModel Execute(MessageEventArgs message, UserModel user)
         {
-            user.CurrentEvent = UserEvent.FirstVisit;
+            user.CurrentEvent = UserEventsEnum.FirstVisit;
 
             return new RequestResultModel()
             {
