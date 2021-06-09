@@ -1,4 +1,5 @@
-﻿using ManagerBot.DAL.Entity;
+﻿using ManagerBot.DAL.Entities;
+using ManagerBot.DAL.Entity;
 
 using Microsoft.EntityFrameworkCore;
 
@@ -10,6 +11,8 @@ namespace ManagerBot.DAL.DataBase
         public DbSet<AreaEntity> Areas { get; set; }
         public DbSet<TaskEntity> Tasks { get; set; }
         public DbSet<UserEntity> Users { get; set; }
+        public DbSet<OperationEntity> Operations { get; set; }
+        public DbSet<OperationTypeEntity> OperationTypes { get; set; }
 
         public BotDbContext()
         {
