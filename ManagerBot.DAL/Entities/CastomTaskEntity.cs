@@ -19,6 +19,9 @@ namespace ManagerBot.DAL.Entities
         public DateTime Date { get; set; }
 
         [Required]
+        public bool IsFinish { get; set; }
+
+        [Required]
         public virtual UserEntity User { get; set; }
     }
 }
