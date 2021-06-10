@@ -17,6 +17,9 @@ namespace ManagerBot.DAL.Entities
         public DateTime Date { get; set; }
 
         [Required]
+        public bool IsFinish { get; set; }
+
+        [Required]
         public OperationCatalogEntity Operation { get; set; }
 
         [Required]

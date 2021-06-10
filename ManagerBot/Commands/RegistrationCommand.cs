@@ -42,7 +42,7 @@ namespace ManagerBot.Commands
                         Message = "Введите ваше ФИО:",
                         User = user
                     };
-                }                
+                }
             }
 
             if (string.IsNullOrEmpty(user.FullName))
@@ -58,7 +58,7 @@ namespace ManagerBot.Commands
 
                 user.FullName = message;
             }
-            
+
             var areas = await areaRepository.GetAsync();
 
             var buttons = new List<List<InlineKeyboardButton>>();

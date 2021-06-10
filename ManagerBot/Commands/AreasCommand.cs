@@ -38,7 +38,7 @@ namespace ManagerBot.Commands
             {
                 return new RequestResultModel()
                 {
-                    Message = "Выберите зону!",
+                    Message = "Выберите участок!",
                     User = user
                 };
             }
@@ -62,7 +62,7 @@ namespace ManagerBot.Commands
 
             return new RequestResultModel()
             {
-                Message = "Выберите продукт.",
+                Message = "Выберите продукт!",
                 User = user,
                 Buttons = new InlineKeyboardMarkup(buttons)
             };

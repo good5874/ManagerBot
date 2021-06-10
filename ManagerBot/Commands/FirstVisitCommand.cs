@@ -19,7 +19,7 @@ namespace ManagerBot.Commands
 
         public async Task<RequestResultModel> ExecuteAsync(string message, UserEntity user)
         {
-            if (message.Contains(SettingsConstant.InviteCode.ToString()))
+            if (message.Contains("/start " + SettingsConstant.InviteCode.ToString()))
             {
                 user.CurrentEvent = UserEvent.FirstVisit;
 
