@@ -13,6 +13,6 @@ namespace ManagerBot.Commands.Abstract
         public string Name { get; }
         List<UserEvent> Events { get; }
 
-        public RequestResultModel Execute(MessageEventArgs message, UserEntity user);
+        public RequestResultModel Execute(string message, UserEntity user);
     }
 }

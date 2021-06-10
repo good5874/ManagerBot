@@ -4,7 +4,7 @@
     {
         FirstVisit,
         Registration,
-        ConfirmEmail,
+        AreasSelecting,
         Work
     }
 }

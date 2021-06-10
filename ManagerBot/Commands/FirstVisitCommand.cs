@@ -2,10 +2,12 @@
 using ManagerBot.DAL.Entity;
 using ManagerBot.DAL.Entity.Enums;
 using ManagerBot.Models;
+using ManagerBot.Models.Constants;
 
 using System.Collections.Generic;
 
 using Telegram.Bot.Args;
+using Telegram.Bot.Types.ReplyMarkups;
 
 namespace ManagerBot.Commands
 {
@@ -15,13 +17,29 @@ namespace ManagerBot.Commands
 
         public List<UserEvent> Events => null;
 
-        public RequestResultModel Execute(MessageEventArgs message, UserEntity user)
+        public RequestResultModel Execute(string message, UserEntity user)
         {
-            user.CurrentEvent = UserEvent.FirstVisit;
+            if (message.Contains(SettingsConstant.InviteCode.ToString()))
+            {
+                user.CurrentEvent = UserEvent.FirstVisit;
+
+                return new RequestResultModel()
+                {
+                    Message = "Добро пожаловать в ManagerBot",
+                    User = user,
+                    Buttons = new InlineKeyboardMarkup(new List<List<InlineKeyboardButton>>() 
+                    { 
+                        new List<InlineKeyboardButton>()
+                        {
+                            InlineKeyboardButton.WithCallbackData("Регистрация")
+                        }
+                    })
+                };
+            }
 
             return new RequestResultModel()
             {
-                Message = "Добро пожаловать в ManagerBot",
+                Message = string.Empty,
                 User = user
             };
         }

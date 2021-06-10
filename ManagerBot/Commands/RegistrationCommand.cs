@@ -1,88 +1,91 @@
 ﻿using ManagerBot.Commands.Abstract;
+using ManagerBot.DAL.DataBase.Repositories.Abstract;
 using ManagerBot.DAL.Entity;
 using ManagerBot.DAL.Entity.Enums;
 using ManagerBot.Models;
 
 using System.Collections.Generic;
+using System.Linq;
 
 using Telegram.Bot.Args;
+using Telegram.Bot.Types.ReplyMarkups;
 
 namespace ManagerBot.Commands
 {
     public class RegistrationCommand : IBaseCommand
     {
+        private readonly IAreaRepository areaRepository;
+
+        public RegistrationCommand(IAreaRepository areaRepository)
+        {
+            this.areaRepository = areaRepository;
+        }
+
         public string Name { get; } = "Регистрация";
 
-        public List<UserEvent> Events => new List<UserEvent>() 
+        public List<UserEvent> Events => new List<UserEvent>()
         {
             UserEvent.FirstVisit, UserEvent.Registration
         };
 
-        public RequestResultModel Execute(MessageEventArgs message, UserEntity user)
+        public RequestResultModel Execute(string message, UserEntity user)
         {
             if (user.CurrentEvent == UserEvent.FirstVisit)
             {
-                user.CurrentEvent = UserEvent.Registration;
-
-                return new RequestResultModel()
+                if(message == Name)
                 {
-                    Message = "Введите ваше ФИО:",
-                    User = user
-                };
-            }
-
-            if(user.CurrentEvent == UserEvent.Registration)
-            {
-                if (string.IsNullOrEmpty(user.FullName))
-                {
-                    if (string.IsNullOrEmpty(message.Message.Text))
-                    {
-                        return new RequestResultModel()
-                        {
-                            Message = "ФИО не может быть пустым",
-                            User = user
-                        };
-                    }
-
-                    user.FullName = message.Message.Text;
+                    user.CurrentEvent = UserEvent.Registration;
 
                     return new RequestResultModel()
                     {
-                        Message = "Введите ваш Email:",
+                        Message = "Введите ваше ФИО:",
+                        User = user
+                    };
+                }                
+            }
+
+            if (string.IsNullOrEmpty(user.FullName))
+            {
+                if (string.IsNullOrEmpty(message))
+                {
+                    return new RequestResultModel()
+                    {
+                        Message = "ФИО не может быть пустым",
                         User = user
                     };
                 }
 
-                if (string.IsNullOrEmpty(user.Email))
-                {
-                    if (string.IsNullOrEmpty(message.Message.Text))
-                    {
-                        return new RequestResultModel()
-                        {
-                            Message = "Email не может быть пустым",
-                            User = user
-                        };
-                    }
-
-                    user.Email = message.Message.Text;
-                    user.CurrentEvent = UserEvent.ConfirmEmail;
-
-                    //TODO: Отправить код на почту
-
-                    return new RequestResultModel()
-                    {
-                        Message = "Вам на почту отправленно сообщение с кодом подтверждения. \n" +
-                                  "Введите код:",
-                        User = user
-                    };
-                }
+                user.FullName = message;
+                user.CurrentEvent = UserEvent.AreasSelecting;
             }
+            
+            var areas = areaRepository.GetAsync().Result;
 
-            if(user.CurrentEvent == UserEvent.ConfirmEmail)
+            var buttons = new List<List<InlineKeyboardButton>>();
+
+            int processesCount = 0;
+            while (areas.Count() > processesCount)
             {
-                return null;
+                var areasButtonsLine = areas.Skip(processesCount).Take(3);
+
+                buttons.Add(new List<InlineKeyboardButton>() { });
+
+                foreach (var area in areasButtonsLine)
+                {
+                    buttons.Last().Add(InlineKeyboardButton.WithCallbackData(area.Name));
+                }
+
+                processesCount += 3;
             }
-            return null;
+
+            return new RequestResultModel()
+            {
+                Message = "Выберите зону.",
+                User = user,
+                Buttons = new InlineKeyboardMarkup(buttons)
+            };
+
+
         }
     }
 }

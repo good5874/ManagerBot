@@ -22,6 +22,8 @@ namespace ManagerBot
             #region Repositories
             builder.RegisterType<UserRepository>()
                 .As<IUserRepository>();
+            builder.RegisterType<AreaRepository>()
+                .As<IAreaRepository>();
             #endregion
             #region Commands
             builder.RegisterType<FirstVisitCommand>()

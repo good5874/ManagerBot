@@ -30,7 +30,64 @@ namespace ManagerBot.Services
         {
             client.OnMessage += BotOnMessageReceived;
             client.OnMessageEdited += BotOnMessageReceived;
+            client.OnCallbackQuery += Client_OnCallbackQuery;
             client.StartReceiving();
+        }
+
+        private async void Client_OnCallbackQuery(object sender, CallbackQueryEventArgs e)
+        {
+            var currentUser = userRepository
+                .FindByTelegramId(e.CallbackQuery.From.Id);
+
+            bool isNewUser = currentUser == null ? true : false;
+
+            var command = Commands
+                .FirstOrDefault(x => x.Name == e.CallbackQuery.Data);
+
+            if (command != null)
+            {
+                var result = command.Execute(
+                    e.CallbackQuery.Data,
+                    currentUser ?? new UserEntity());
+
+                result.User.TelegramId = e.CallbackQuery.From.Id;
+
+                await client.SendTextMessageAsync(
+                    e.CallbackQuery.Message.Chat.Id,
+                    result.Message,
+                    replyMarkup: result.Buttons);
+
+                if (isNewUser)
+                {
+                    await userRepository.CreateAsync(result.User);
+                }
+                else
+                {
+                    await userRepository.UpdateAsync(result.User);
+                }
+
+                return;
+            }
+
+            if (currentUser != null)
+            {
+                command = Commands
+                    .Where(x => x.Events != null)
+                    .FirstOrDefault(x => x.Events.Contains(currentUser.CurrentEvent.GetValueOrDefault()));
+
+                var result = command.Execute(
+                    e.CallbackQuery.Data,
+                    currentUser);
+
+                await client.SendTextMessageAsync(
+                    e.CallbackQuery.Message.Chat.Id,
+                    result.Message,
+                    replyMarkup: result.Buttons);
+
+                await userRepository.UpdateAsync(result.User);
+
+                return;
+            }
         }
 
         private async void BotOnMessageReceived(object sender, MessageEventArgs messageEventArgs)
@@ -48,12 +105,15 @@ namespace ManagerBot.Services
             if(command != null )
             {
                 var result = command.Execute(
-                    messageEventArgs,
+                    messageEventArgs.Message.Text,
                     currentUser ?? new UserEntity());
 
                 result.User.TelegramId = messageEventArgs.Message.From.Id;
 
-                await client.SendTextMessageAsync(messageEventArgs.Message.Chat.Id, result.Message);
+                await client.SendTextMessageAsync(
+                    messageEventArgs.Message.Chat.Id,
+                    result.Message, 
+                    replyMarkup: result.Buttons);
 
                 if (isNewUser)
                 {
@@ -74,10 +134,13 @@ namespace ManagerBot.Services
                     .FirstOrDefault(x => x.Events.Contains(currentUser.CurrentEvent.GetValueOrDefault()));
 
                 var result = command.Execute(
-                    messageEventArgs,
+                    messageEventArgs.Message.Text,
                     currentUser);
 
-                await client.SendTextMessageAsync(messageEventArgs.Message.Chat.Id, result.Message);
+                await client.SendTextMessageAsync(
+                    messageEventArgs.Message.Chat.Id,
+                    result.Message, 
+                    replyMarkup: result.Buttons);
 
                 await userRepository.UpdateAsync(result.User);
 
@@ -88,14 +151,20 @@ namespace ManagerBot.Services
                 .FirstOrDefault(x => x.Events == null);
 
             var newUserResult = command.Execute(
-                messageEventArgs,
+                messageEventArgs.Message.Text,
                 new UserEntity());
 
             newUserResult.User.TelegramId = messageEventArgs.Message.From.Id;
 
-            await client.SendTextMessageAsync(messageEventArgs.Message.Chat.Id, newUserResult.Message);
+            if (!string.IsNullOrEmpty(newUserResult.Message))
+            {
+                await client.SendTextMessageAsync(
+                    messageEventArgs.Message.Chat.Id,
+                    newUserResult.Message,
+                    replyMarkup: newUserResult.Buttons);
 
-            await userRepository.CreateAsync(newUserResult.User);
+                await userRepository.CreateAsync(newUserResult.User);
+            }            
         }
     }
 }
