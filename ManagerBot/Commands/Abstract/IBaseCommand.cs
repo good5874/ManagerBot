@@ -3,6 +3,7 @@ using ManagerBot.DAL.Entity.Enums;
 using ManagerBot.Models;
 
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 using Telegram.Bot.Args;
 
@@ -10,9 +11,9 @@ namespace ManagerBot.Commands.Abstract
 {
     public interface IBaseCommand
     {
-        public string Name { get; }
+        string Name { get; }
         List<UserEvent> Events { get; }
 
-        public RequestResultModel Execute(string message, UserEntity user);
+        Task<RequestResultModel> ExecuteAsync(string message, UserEntity user);
     }
 }

@@ -5,8 +5,8 @@ using ManagerBot.Models;
 using ManagerBot.Models.Constants;
 
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
-using Telegram.Bot.Args;
 using Telegram.Bot.Types.ReplyMarkups;
 
 namespace ManagerBot.Commands
@@ -17,7 +17,7 @@ namespace ManagerBot.Commands
 
         public List<UserEvent> Events => null;
 
-        public RequestResultModel Execute(string message, UserEntity user)
+        public async Task<RequestResultModel> ExecuteAsync(string message, UserEntity user)
         {
             if (message.Contains(SettingsConstant.InviteCode.ToString()))
             {

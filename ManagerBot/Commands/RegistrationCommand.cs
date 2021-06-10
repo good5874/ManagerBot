@@ -6,6 +6,7 @@ using ManagerBot.Models;
 
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 using Telegram.Bot.Args;
 using Telegram.Bot.Types.ReplyMarkups;
@@ -28,7 +29,7 @@ namespace ManagerBot.Commands
             UserEvent.FirstVisit, UserEvent.Registration
         };
 
-        public RequestResultModel Execute(string message, UserEntity user)
+        public async Task<RequestResultModel> ExecuteAsync(string message, UserEntity user)
         {
             if (user.CurrentEvent == UserEvent.FirstVisit)
             {
@@ -56,10 +57,9 @@ namespace ManagerBot.Commands
                 }
 
                 user.FullName = message;
-                user.CurrentEvent = UserEvent.AreasSelecting;
             }
             
-            var areas = areaRepository.GetAsync().Result;
+            var areas = await areaRepository.GetAsync();
 
             var buttons = new List<List<InlineKeyboardButton>>();
 
@@ -77,7 +77,7 @@ namespace ManagerBot.Commands
 
                 processesCount += 3;
             }
-
+            user.CurrentEvent = UserEvent.AreasSelecting;
             return new RequestResultModel()
             {
                 Message = "Выберите зону.",

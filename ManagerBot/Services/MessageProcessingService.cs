@@ -46,7 +46,7 @@ namespace ManagerBot.Services
 
             if (command != null)
             {
-                var result = command.Execute(
+                var result = await command.ExecuteAsync(
                     e.CallbackQuery.Data,
                     currentUser ?? new UserEntity());
 
@@ -75,7 +75,7 @@ namespace ManagerBot.Services
                     .Where(x => x.Events != null)
                     .FirstOrDefault(x => x.Events.Contains(currentUser.CurrentEvent.GetValueOrDefault()));
 
-                var result = command.Execute(
+                var result = await command.ExecuteAsync(
                     e.CallbackQuery.Data,
                     currentUser);
 
@@ -104,7 +104,7 @@ namespace ManagerBot.Services
 
             if(command != null )
             {
-                var result = command.Execute(
+                var result = await command.ExecuteAsync(
                     messageEventArgs.Message.Text,
                     currentUser ?? new UserEntity());
 
@@ -133,7 +133,7 @@ namespace ManagerBot.Services
                     .Where(x => x.Events != null)
                     .FirstOrDefault(x => x.Events.Contains(currentUser.CurrentEvent.GetValueOrDefault()));
 
-                var result = command.Execute(
+                var result = await command.ExecuteAsync(
                     messageEventArgs.Message.Text,
                     currentUser);
 
@@ -150,7 +150,7 @@ namespace ManagerBot.Services
             command = Commands
                 .FirstOrDefault(x => x.Events == null);
 
-            var newUserResult = command.Execute(
+            var newUserResult = await command.ExecuteAsync(
                 messageEventArgs.Message.Text,
                 new UserEntity());
 
