@@ -41,7 +41,7 @@ namespace ManagerBot.Commands
                     Message = "Выберите зону!",
                     User = user
                 };
-            }                
+            }
 
             var buttons = new List<List<InlineKeyboardButton>>();
 

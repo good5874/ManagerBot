@@ -9,7 +9,7 @@ namespace ManagerBot.DAL.DataBase.Repositories
     {
         private readonly BotDbContext context;
 
-        public UserRepository(BotDbContext context) 
+        public UserRepository(BotDbContext context)
             : base(context)
         {
             this.context = context;

@@ -14,7 +14,7 @@ namespace ManagerBot.DAL.DataBase.Repositories
     {
         private readonly BotDbContext context;
 
-        public AreaRepository(BotDbContext context) 
+        public AreaRepository(BotDbContext context)
             : base(context)
         {
             this.context = context;

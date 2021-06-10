@@ -11,7 +11,6 @@ namespace ManagerBot.Commands.Abstract
 {
     public interface IBaseCommand
     {
-        string Name { get; }
         List<UserEvent> Events { get; }
 
         Task<RequestResultModel> ExecuteAsync(string message, UserEntity user);

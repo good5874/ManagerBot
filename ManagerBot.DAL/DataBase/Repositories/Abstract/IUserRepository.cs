@@ -2,7 +2,7 @@
 
 namespace ManagerBot.DAL.DataBase.Repositories.Abstract
 {
-    public interface IUserRepository 
+    public interface IUserRepository
         : IBaseRepository<UserEntity>
     {
         UserEntity FindByTelegramId(int telegramId);

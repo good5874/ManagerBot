@@ -27,8 +27,8 @@ namespace ManagerBot.Commands
                 {
                     Message = "Добро пожаловать в ManagerBot",
                     User = user,
-                    Buttons = new InlineKeyboardMarkup(new List<List<InlineKeyboardButton>>() 
-                    { 
+                    Buttons = new InlineKeyboardMarkup(new List<List<InlineKeyboardButton>>()
+                    {
                         new List<InlineKeyboardButton>()
                         {
                             InlineKeyboardButton.WithCallbackData("Регистрация")

@@ -38,7 +38,6 @@ namespace ManagerBot.Services
         {
             var currentUser = userRepository
                 .FindByTelegramId(e.CallbackQuery.From.Id);
-
             bool isNewUser = currentUser == null ? true : false;
 
             var command = Commands
@@ -112,7 +111,7 @@ namespace ManagerBot.Services
 
                 await client.SendTextMessageAsync(
                     messageEventArgs.Message.Chat.Id,
-                    result.Message, 
+                    result.Message,
                     replyMarkup: result.Buttons);
 
                 if (isNewUser)
@@ -139,7 +138,7 @@ namespace ManagerBot.Services
 
                 await client.SendTextMessageAsync(
                     messageEventArgs.Message.Chat.Id,
-                    result.Message, 
+                    result.Message,
                     replyMarkup: result.Buttons);
 
                 await userRepository.UpdateAsync(result.User);
@@ -164,7 +163,7 @@ namespace ManagerBot.Services
                     replyMarkup: newUserResult.Buttons);
 
                 await userRepository.CreateAsync(newUserResult.User);
-            }            
+            }
         }
     }
 }
