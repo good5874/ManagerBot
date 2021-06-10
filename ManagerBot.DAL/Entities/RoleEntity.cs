@@ -5,12 +5,12 @@ namespace ManagerBot.DAL.Entities
 {
     public class RoleEntity
     {
-        [Required]
+        [Key]
         public int Id { get; set; }
 
         [Required]
         public string Name { get; set; }
 
-        public virtual List<UserRolesEntity> UserRoles { get; set; }
+        public List<UserRolesEntity> UserRoles { get; set; }
     }
 }

@@ -7,7 +7,7 @@ namespace ManagerBot.DAL.Entity
 {
     public class UserEntity
     {
-        [Required]
+        [Key]
         public int Id { get; set; }
 
         [Required]
@@ -15,12 +15,12 @@ namespace ManagerBot.DAL.Entity
 
         public string FullName { get; set; }
 
-        public string Email { get; set; }
-
         public UserEvent? CurrentEvent { get; set; }
 
-        public virtual List<TaskEntity> Tasks  { get; set; }
+        public List<TaskEntity> Tasks { get; set; }
 
-        public virtual List<UserRolesEntity> UserRoles { get; set; }
+        public List<CastomTaskEntity> CastomTasks { get; set; }
+
+        public List<UserRolesEntity> UserRoles { get; set; }
     }
 }

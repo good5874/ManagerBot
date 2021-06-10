@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using ManagerBot.DAL.Entity;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace ManagerBot.DAL.Entities
@@ -6,8 +7,15 @@ namespace ManagerBot.DAL.Entities
     public class ProductCatalogEntity
     {
         [Key]
-        public string ProductName { get; set; }
+        public int id { get; set; }
 
-        public virtual List<ProductEntity> Operations { get; set; }
+        [Required]
+        public string Name { get; set; }
+
+        [Required]
+        public virtual AreaEntity Area { get; set; }
+
+        [Required]
+        public virtual List<OperationCatalogEntity> OperationCatalog { get; set; }
     }
 }
