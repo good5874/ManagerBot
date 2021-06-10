@@ -7,12 +7,17 @@ namespace ManagerBot.DAL.DataBase
 {
     public class BotDbContext : DbContext
     {
-        public DbSet<OrderEntity> Orders { get; set; }
         public DbSet<AreaEntity> Areas { get; set; }
+        public DbSet<OperationCatalogEntity> OperationCatalog { get; set; }
+        public DbSet<OperationEntity> Operations { get; set; }
+        public DbSet<OrderEntity> Orders { get; set; }
+        public DbSet<ProductCatalogEntity> ProductCatalog { get; set; }
+        public DbSet<ProductEntity> Products { get; set; }
+        public DbSet<RoleEntity> Roles { get; set; }
+        public DbSet<StoreEntity> Stores { get; set; }
         public DbSet<TaskEntity> Tasks { get; set; }
         public DbSet<UserEntity> Users { get; set; }
-        public DbSet<OperationEntity> Operations { get; set; }
-        public DbSet<OperationTypeEntity> OperationTypes { get; set; }
+        public DbSet<UserRolesEntity> UserRoles { get; set; }
 
         public BotDbContext()
         {

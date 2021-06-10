@@ -44,11 +44,11 @@ namespace ManagerBot.Services
 
             var command = Commands
                 .FirstOrDefault(x => x.Name == messageEventArgs.Message.Text);
-            
+
             if(command != null )
             {
                 var result = command.Execute(
-                    messageEventArgs, 
+                    messageEventArgs,
                     currentUser ?? new UserEntity());
 
                 result.User.TelegramId = messageEventArgs.Message.From.Id;

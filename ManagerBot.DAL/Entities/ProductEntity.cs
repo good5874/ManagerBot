@@ -1,25 +1,25 @@
 ﻿using ManagerBot.DAL.Entity;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Text;
 
 namespace ManagerBot.DAL.Entities
 {
-    public class TaskEntity
+    public class ProductEntity
     {
         [Required]
         public int Id { get; set; }
 
         [Required]
-        public string Name { get; set; }
-
-        public double? Cost { get; set; }
+        public ProductCatalogEntity Name { get; set; }
 
         [Required]
-        public bool IsFinish { get; set; }
-
-        public AreaEntity Area { get; set; }
-
-        public virtual UserEntity User { get; set; }
         public virtual List<OperationEntity> Operations { get; set; }
+
+        [Required]
+        public virtual OrderEntity Order { get; set; }
+        public virtual AreaEntity Area { get; set; }
+        public virtual StoreEntity Store { get; set; }
     }
 }
