@@ -1,25 +1,24 @@
 ﻿using ManagerBot.DAL.Entity;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace ManagerBot.DAL.Entities
 {
-    public class TaskEntity
+    public class CastomTaskEntity
     {
         [Key]
         public int Id { get; set; }
 
         [Required]
-        public int AmountOperations { get; set; }
+        public string Name { get; set; }
+
+        [Required]
+        public double Cost { get; set; }
 
         [Required]
         public DateTime Date { get; set; }
 
         [Required]
-        public OperationCatalogEntity Operation { get; set; }
-
-        [Required]
-        public UserEntity User { get; set; }
+        public virtual UserEntity User { get; set; }
     }
 }

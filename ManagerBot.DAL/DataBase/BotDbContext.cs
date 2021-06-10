@@ -9,13 +9,10 @@ namespace ManagerBot.DAL.DataBase
     {
         public DbSet<AreaEntity> Areas { get; set; }
         public DbSet<OperationCatalogEntity> OperationCatalog { get; set; }
-        public DbSet<OperationEntity> Operations { get; set; }
-        public DbSet<OrderEntity> Orders { get; set; }
         public DbSet<ProductCatalogEntity> ProductCatalog { get; set; }
-        public DbSet<ProductEntity> Products { get; set; }
         public DbSet<RoleEntity> Roles { get; set; }
-        public DbSet<StoreEntity> Stores { get; set; }
         public DbSet<TaskEntity> Tasks { get; set; }
+        public DbSet<CastomTaskEntity> CastomTasks { get; set; }
         public DbSet<UserEntity> Users { get; set; }
         public DbSet<UserRolesEntity> UserRoles { get; set; }
 
@@ -27,6 +24,7 @@ namespace ManagerBot.DAL.DataBase
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseSqlServer("Server=tcp:trainingportal.database.windows.net,1433;Initial Catalog=ManagerBot;Persist Security Info=False;User ID=trainingportal;Password=123zxcVBNM;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;");
+            //optionsBuilder.UseSqlServer("Data Source=WIN-AH0B86FQ7GQ\\MSSQLSERVER2019;Initial Catalog=ManagerBot;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False");
         }
     }
 }

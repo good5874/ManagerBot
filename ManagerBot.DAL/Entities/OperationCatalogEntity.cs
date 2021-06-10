@@ -6,8 +6,17 @@ namespace ManagerBot.DAL.Entities
     public class OperationCatalogEntity
     {
         [Key]
-        public string NameOperation { get; set; }
+        public int Id { get; set; }
 
-        public virtual List<OperationEntity> Operations { get; set; }
+        [Required]
+        public string Name { get; set; }
+
+        [Required]
+        public double Cost { get; set; }
+
+        [Required]
+        public virtual ProductCatalogEntity Product { get; set; }
+
+        public virtual List<TaskEntity> Tasks { get; set; }
     }
 }
