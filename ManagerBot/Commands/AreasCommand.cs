@@ -38,10 +38,10 @@ namespace ManagerBot.Commands
             {
                 return new RequestResultModel()
                 {
-                    Message = "Выберите зону!",
+                    Message = "Выберите участок!",
                     User = user
                 };
-            }                
+            }
 
             var buttons = new List<List<InlineKeyboardButton>>();
 
@@ -62,7 +62,7 @@ namespace ManagerBot.Commands
 
             return new RequestResultModel()
             {
-                Message = "Выберите продукт.",
+                Message = "Выберите продукт!",
                 User = user,
                 Buttons = new InlineKeyboardMarkup(buttons)
             };
