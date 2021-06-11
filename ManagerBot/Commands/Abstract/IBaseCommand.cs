@@ -12,7 +12,7 @@ namespace ManagerBot.Commands.Abstract
     public interface IBaseCommand
     {
         List<UserEvent> Events { get; }
-
+        bool OnContains(string message, UserEntity user);
         Task<RequestResultModel> ExecuteAsync(string message, UserEntity user);
     }
 }

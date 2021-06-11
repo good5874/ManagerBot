@@ -8,12 +8,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-using Telegram.Bot.Args;
 using Telegram.Bot.Types.ReplyMarkups;
 
 namespace ManagerBot.Commands
 {
-    public class RegistrationCommand : IBaseCommand
+    public class RegistrationCommand : BaseCommand
     {
         private readonly IAreaRepository areaRepository;
 
@@ -22,14 +21,14 @@ namespace ManagerBot.Commands
             this.areaRepository = areaRepository;
         }
 
-        public string Name { get; } = "Регистрация";
+        public override string Name { get; } = "Регистрация";
 
-        public List<UserEvent> Events => new List<UserEvent>()
+        public override List<UserEvent> Events => new List<UserEvent>()
         {
             UserEvent.FirstVisit, UserEvent.Registration
         };
 
-        public async Task<RequestResultModel> ExecuteAsync(string message, UserEntity user)
+        public override async Task<RequestResultModel> ExecuteAsync(string message, UserEntity user)
         {
             if (user.CurrentEvent == UserEvent.FirstVisit)
             {

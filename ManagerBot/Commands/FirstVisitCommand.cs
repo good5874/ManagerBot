@@ -11,13 +11,17 @@ using Telegram.Bot.Types.ReplyMarkups;
 
 namespace ManagerBot.Commands
 {
-    public class FirstVisitCommand : IBaseCommand
+    public class FirstVisitCommand : BaseCommand
     {
-        public string Name { get; } = string.Empty;
+        public override string Name { get; } = string.Empty;
 
-        public List<UserEvent> Events => null;
+        public override List<UserEvent> Events => null;
 
-        public async Task<RequestResultModel> ExecuteAsync(string message, UserEntity user)
+        public override bool OnContains(string message, UserEntity user)
+        {
+            return user == null;
+        }
+        public override async Task<RequestResultModel> ExecuteAsync(string message, UserEntity user)
         {
             if (message.Contains("/start " + SettingsConstant.InviteCode.ToString()))
             {
@@ -37,11 +41,7 @@ namespace ManagerBot.Commands
                 };
             }
 
-            return new RequestResultModel()
-            {
-                Message = string.Empty,
-                User = user
-            };
+            return null;
         }
     }
 }

@@ -12,23 +12,23 @@ using Telegram.Bot.Types.ReplyMarkups;
 
 namespace ManagerBot.Commands
 {
-    public class AreasCommand : IBaseCommand
+    public class AreasCommand : BaseCommand
     {
         private readonly IAreaRepository areaRepository;
 
-        public string Name => string.Empty;
+        public override string Name => string.Empty;
 
         public AreasCommand(IAreaRepository areaRepository)
         {
             this.areaRepository = areaRepository;
         }
 
-        public List<UserEvent> Events => new List<UserEvent>()
+        public override List<UserEvent> Events => new List<UserEvent>()
         {
             UserEvent.AreasSelecting
         };
 
-        public async Task<RequestResultModel> ExecuteAsync(string message, UserEntity user)
+        public override async Task<RequestResultModel> ExecuteAsync(string message, UserEntity user)
         {
             var areas = await areaRepository.GetAreasWithIncludesAsync();
 
