@@ -1,4 +1,4 @@
-﻿using ManagerBot.DAL.Entity.Enums;
+﻿using ManagerBot.DAL.Entities.Enums;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 

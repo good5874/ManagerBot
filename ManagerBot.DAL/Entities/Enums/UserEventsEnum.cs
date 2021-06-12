@@ -1,4 +1,4 @@
-﻿namespace ManagerBot.DAL.Entity.Enums
+﻿namespace ManagerBot.DAL.Entities.Enums
 {
     public enum UserEvent
     {
