@@ -2,7 +2,7 @@
 
 using ManagerBot.Commands.Abstract;
 using ManagerBot.DAL.DataBase.Repositories.Abstract;
-using ManagerBot.DAL.Entity;
+using ManagerBot.DAL.Entities;
 
 using System.Collections.Generic;
 using System.Linq;
@@ -42,8 +42,8 @@ namespace ManagerBot.Services
                 .FindByTelegramId(e.CallbackQuery.From.Id);
 
             var result = await Commands
-                .First(x => x.OnContains(e.CallbackQuery.Message.Text, currentUser))
-                .ExecuteAsync(e.CallbackQuery.Message.Text, currentUser ?? new UserEntity());
+                .First(x => x.OnContains(e.CallbackQuery.Data, currentUser))
+                .ExecuteAsync(e.CallbackQuery.Data, currentUser ?? new UserEntity());
 
             if (result != null)
             {

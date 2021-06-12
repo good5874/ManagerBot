@@ -38,7 +38,7 @@ namespace ManagerBot.Commands
             {
                 return new RequestResultModel()
                 {
-                    Message = "Выберите участок!",
+                    Message = "Вы выбрали не существующий участок!",
                     User = user
                 };
             }
@@ -60,9 +60,11 @@ namespace ManagerBot.Commands
                 processesCount += 3;
             }
 
+            user.CurrentEvent = UserEvent.ProductSelecting;
+
             return new RequestResultModel()
             {
-                Message = "Выберите продукт!",
+                Message = "Выберите продукт.",
                 User = user,
                 Buttons = new InlineKeyboardMarkup(buttons)
             };

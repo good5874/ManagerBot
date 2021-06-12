@@ -24,6 +24,8 @@ namespace ManagerBot
                 .As<IUserRepository>();
             builder.RegisterType<AreaRepository>()
                 .As<IAreaRepository>();
+            builder.RegisterType<ProductsCatalogRepository>()
+                .As<IProductsCatalogRepository>();
             #endregion
             #region Commands
             builder.RegisterType<FirstVisitCommand>()
@@ -31,6 +33,8 @@ namespace ManagerBot
             builder.RegisterType<RegistrationCommand>()
                 .As<IBaseCommand>();
             builder.RegisterType<AreasCommand>()
+                .As<IBaseCommand>();
+            builder.RegisterType<ProductCommand>()
                 .As<IBaseCommand>();
             #endregion
             #region DbContext
