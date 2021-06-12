@@ -1,6 +1,4 @@
-﻿using Autofac;
-
-using ManagerBot.Services;
+﻿using ManagerBot.Services;
 
 using System;
 
@@ -10,9 +8,7 @@ namespace ManagerBot
 	{
 		static void Main(string[] args)
 		{
-			var container = AutofacConfig.ConfigureContainer();
-
-			var messageProcessingService = container.Resolve<MessageProcessingService>();
+			TelegramBotService messageProcessingService = new TelegramBotService();
 			messageProcessingService.StartProcessing();
 
 			Console.ReadLine();

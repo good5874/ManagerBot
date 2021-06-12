@@ -1,5 +1,4 @@
-﻿
-using Autofac;
+﻿using Autofac;
 
 using ManagerBot.Commands;
 using ManagerBot.Commands.Abstract;
@@ -8,7 +7,6 @@ using ManagerBot.DAL.DataBase.Repositories;
 using ManagerBot.DAL.DataBase.Repositories.Abstract;
 using ManagerBot.Models.Constants;
 using ManagerBot.Services;
-
 using Telegram.Bot;
 
 namespace ManagerBot
@@ -51,7 +49,8 @@ namespace ManagerBot
             #endregion
             #region Services
             builder.RegisterType<MessageProcessingService>()
-                .AsSelf();
+                .AsSelf()
+                .ExternallyOwned();
             #endregion
             #region TelegramBot
             builder.RegisterType<TelegramBotClient>()
