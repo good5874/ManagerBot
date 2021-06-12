@@ -24,22 +24,28 @@ namespace ManagerBot.Services
             client.StartReceiving();
         }
 
-        private void Client_OnCallbackQuery(object sender, CallbackQueryEventArgs e)
+        private async void Client_OnCallbackQuery(object sender, CallbackQueryEventArgs e)
         {
+            if (e.CallbackQuery.From.IsBot) return;
+
             var messageProcessing = container.Resolve<MessageProcessingService>();
 
-            messageProcessing.Start(e.CallbackQuery.From.Id,
+            await messageProcessing.Start(
+                e.CallbackQuery.From.Id,
                 e.CallbackQuery.Message.Chat.Id,
                 e.CallbackQuery.Data);
 
             messageProcessing.Dispose();
         }
 
-        private void BotOnMessageReceived(object sender, MessageEventArgs e)
+        private async void BotOnMessageReceived(object sender, MessageEventArgs e)
         {
+            if (e.Message.From.IsBot) return;
+
             var messageProcessing = container.Resolve<MessageProcessingService>();
 
-            messageProcessing.Start(e.Message.From.Id,
+            await messageProcessing.Start(
+                e.Message.From.Id,
                 e.Message.Chat.Id,
                 e.Message.Text);
 

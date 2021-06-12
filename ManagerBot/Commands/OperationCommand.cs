@@ -53,8 +53,8 @@ namespace ManagerBot.Commands
                 AmountOperations = 0,
                 Date = DateTime.Now,
                 IsFinish = false,
-                Operation = selectedOperation,
-                User = user
+                OperationId = selectedOperation.Id,
+                UserId = user.Id
             });
 
             user.CurrentEvent = UserEvent.Work;

@@ -2,9 +2,12 @@
 using ManagerBot.DAL.DataBase.Repositories.Abstract;
 using ManagerBot.DAL.Entities;
 using ManagerBot.Models;
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
+
 using Telegram.Bot;
 
 namespace ManagerBot.Services.Abstract
@@ -29,11 +32,11 @@ namespace ManagerBot.Services.Abstract
             this.commands = commands.ToList();
         }
 
-        public virtual void Start(int telegramId, long chatId, string nameCommand)
+        public virtual async Task Start(int telegramId, long chatId, string nameCommand)
         {
             SetUser(telegramId);
-            ExecuteCommand(nameCommand);
-            Finish(telegramId, chatId);
+            await ExecuteCommand(nameCommand);
+            await Finish(telegramId, chatId);
         }
 
         protected virtual void SetUser(int telegramId)
@@ -41,14 +44,14 @@ namespace ManagerBot.Services.Abstract
             CurrentUser = userRepository.FindByTelegramId(telegramId);
         }
 
-        protected async virtual void ExecuteCommand(string nameCommand)
+        protected async virtual Task ExecuteCommand(string nameCommand)
         {
             Result = await commands
                 .First(x => x.OnContains(nameCommand, CurrentUser))
                 .ExecuteAsync(nameCommand, CurrentUser ?? new UserEntity());
         }
 
-        protected async virtual void Finish(int telegramId, long chatId)
+        protected async virtual Task Finish(int telegramId, long chatId)
         {
             if (Result != null)
             {
