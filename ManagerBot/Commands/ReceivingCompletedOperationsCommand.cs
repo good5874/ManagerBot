@@ -50,6 +50,8 @@ namespace ManagerBot.Commands
                 await taskRepository
                     .UpdateAsync(notCompletedTask);
 
+                user.CurrentEvent = UserEvent.OperationSelecting;
+
                 return new RequestResultModel()
                 {
                     Message = "Ваша работа отправлена мастеру на проверку!",
