@@ -1,0 +1,43 @@
+﻿@model IEnumerable<ManagerBot.DAL.Entities.UserEntity>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Список пользователей</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.Name("ФИО")
+            </th>
+            <th>
+                @Html.Name("Зарплата")
+            </th>
+            <th>
+                @Html.Name("Роли")
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FullName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Salary)
+                </td>
+                <td>
+                    @foreach (var role in item.UserRoles.Select(e => e.Role.Name))
+                    {
+                        @Html.Name(role)
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

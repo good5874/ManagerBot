@@ -1,0 +1,51 @@
+﻿@model IEnumerable<ManagerBot.DAL.Entities.TaskEntity>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Выполненные операции</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.Name("ФИО")
+            </th>
+            <th>
+                @Html.Name("Дата")
+            </th>
+            <th>
+                @Html.Name("Название операции")
+            </th>
+            <th>
+                @Html.Name("Количество операций")
+            </th>
+            <th>
+                @Html.Name("Проверка мастера")
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.User.FullName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Date)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Operation.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AmountOperations)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IsFinish)
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
