@@ -1,7 +1,7 @@
 ﻿using ManagerBot.Commands.Abstract;
 using ManagerBot.DAL.DataBase.Repositories.Abstract;
-using ManagerBot.DAL.Entity;
-using ManagerBot.DAL.Entity.Enums;
+using ManagerBot.DAL.Entities;
+using ManagerBot.DAL.Entities.Enums;
 using ManagerBot.Models;
 
 using System;
@@ -33,13 +33,13 @@ namespace ManagerBot.Commands
         {
             var products = await productsCatalogRepository.GetProductsWithIncludesAsync();
 
-            var selectedProduct = products.FirstOrDefault(x => x.Name == message);
+            var selectedProduct = products.FirstOrDefault(x => x.Name.Trim().Replace("\n", "").Replace("\r", "") == message.Trim().Replace("\n", "").Replace("\r", ""));
 
             if (selectedProduct == null)
             {
                 return new RequestResultModel()
                 {
-                    Message = "Выберите участок!",
+                    Message = "Вы выбрали не существующий продукт!",
                     User = user
                 };
             }

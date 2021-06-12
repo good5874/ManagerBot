@@ -38,7 +38,7 @@ namespace ManagerBot.Commands
             {
                 return new RequestResultModel()
                 {
-                    Message = "Выберите участок!",
+                    Message = "Вы выбрали не существующий участок!",
                     User = user
                 };
             }

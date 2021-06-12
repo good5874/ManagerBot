@@ -34,6 +34,8 @@ namespace ManagerBot
                 .As<IBaseCommand>();
             builder.RegisterType<AreasCommand>()
                 .As<IBaseCommand>();
+            builder.RegisterType<ProductCommand>()
+                .As<IBaseCommand>();
             #endregion
             #region DbContext
             builder.RegisterType<BotDbContext>()
