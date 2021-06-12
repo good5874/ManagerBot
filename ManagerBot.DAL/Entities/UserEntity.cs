@@ -14,6 +14,8 @@ namespace ManagerBot.DAL.Entities
 
         public string FullName { get; set; }
 
+        public double Salary { get; set; }
+
         public UserEvent? CurrentEvent { get; set; }
 
         public List<TaskEntity> Tasks { get; set; }
