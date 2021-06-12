@@ -43,7 +43,7 @@ namespace ManagerBot.Services
 
             var result = await Commands
                 .First(x => x.OnContains(e.CallbackQuery.Message.Text, currentUser))
-                .ExecuteAsync(e.CallbackQuery.Message.Text, currentUser ?? new UserEntity());
+                .ExecuteAsync(e.CallbackQuery.Data, currentUser ?? new UserEntity());
 
             if (result != null)
             {

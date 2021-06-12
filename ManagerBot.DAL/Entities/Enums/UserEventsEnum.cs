@@ -5,6 +5,7 @@
         FirstVisit,
         Registration,
         AreasSelecting,
+        ProductSelecting,
         Work
     }
 }

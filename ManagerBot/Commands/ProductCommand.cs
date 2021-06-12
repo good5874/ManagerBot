@@ -4,6 +4,7 @@ using ManagerBot.DAL.Entity;
 using ManagerBot.DAL.Entity.Enums;
 using ManagerBot.Models;
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -12,29 +13,29 @@ using Telegram.Bot.Types.ReplyMarkups;
 
 namespace ManagerBot.Commands
 {
-    public class AreasCommand : BaseCommand
+    public class ProductCommand : BaseCommand
     {
-        private readonly IAreaRepository areaRepository;
+        private readonly IProductsCatalogRepository productsCatalogRepository;
 
-        public override string Name => string.Empty;
+        public override string Name => String.Empty;
 
-        public AreasCommand(IAreaRepository areaRepository)
+        public ProductCommand(IProductsCatalogRepository productsCatalogRepository)
         {
-            this.areaRepository = areaRepository;
+            this.productsCatalogRepository = productsCatalogRepository;
         }
 
         public override List<UserEvent> Events => new List<UserEvent>()
         {
-            UserEvent.AreasSelecting
+            UserEvent.ProductSelecting
         };
 
-        public override async Task<RequestResultModel> ExecuteAsync(string message, UserEntity user)
+        public async override Task<RequestResultModel> ExecuteAsync(string message, UserEntity user)
         {
-            var areas = await areaRepository.GetAreasWithIncludesAsync();
+            var products = await productsCatalogRepository.GetProductsWithIncludesAsync();
 
-            var selectedArea = areas.FirstOrDefault(x => x.Name == message);
+            var selectedProduct = products.FirstOrDefault(x => x.Name == message);
 
-            if (selectedArea == null)
+            if (selectedProduct == null)
             {
                 return new RequestResultModel()
                 {
@@ -46,25 +47,23 @@ namespace ManagerBot.Commands
             var buttons = new List<List<InlineKeyboardButton>>();
 
             int processesCount = 0;
-            while (selectedArea.ProductCatalog.Count() > processesCount)
+            while (selectedProduct.OperationCatalog.Count() > processesCount)
             {
-                var productsButtonsLine = selectedArea.ProductCatalog.Skip(processesCount).Take(3);
+                var productsButtonsLine = selectedProduct.OperationCatalog.Skip(processesCount).Take(3);
 
                 buttons.Add(new List<InlineKeyboardButton>() { });
 
                 foreach (var product in productsButtonsLine)
                 {
-                    buttons.Last().Add(InlineKeyboardButton.WithCallbackData(product.Name.Trim().Replace("\n","").Replace("\r", "")));
+                    buttons.Last().Add(InlineKeyboardButton.WithCallbackData(product.Name.Trim().Replace("\n", "").Replace("\r", "")));
                 }
 
                 processesCount += 3;
             }
 
-            user.CurrentEvent = UserEvent.ProductSelecting;
-
             return new RequestResultModel()
             {
-                Message = "Выберите продукт.",
+                Message = "Выберите операцию.",
                 User = user,
                 Buttons = new InlineKeyboardMarkup(buttons)
             };

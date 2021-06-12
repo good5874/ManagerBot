@@ -28,11 +28,16 @@ namespace ManagerBot.Commands
             UserEvent.FirstVisit, UserEvent.Registration
         };
 
+        public override bool OnContains(string message, UserEntity user)
+        {
+            return base.OnContains(message, user);
+        }
+
         public override async Task<RequestResultModel> ExecuteAsync(string message, UserEntity user)
         {
             if (user.CurrentEvent == UserEvent.FirstVisit)
             {
-                if(message == Name)
+                if(message.Trim() == Name)
                 {
                     user.CurrentEvent = UserEvent.Registration;
 
