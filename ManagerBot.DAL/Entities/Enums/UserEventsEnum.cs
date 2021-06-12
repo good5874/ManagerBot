@@ -6,6 +6,7 @@
         Registration,
         AreasSelecting,
         ProductSelecting,
+        OperationSelecting,
         Work
     }
 }

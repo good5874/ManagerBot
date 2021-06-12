@@ -39,7 +39,7 @@ namespace ManagerBot.Commands
             {
                 return new RequestResultModel()
                 {
-                    Message = "Вы выбрали не существующий продукт!",
+                    Message = "Вы выбрали несуществующий продукт!",
                     User = user
                 };
             }
@@ -60,7 +60,7 @@ namespace ManagerBot.Commands
 
                 processesCount += 3;
             }
-
+            user.CurrentEvent = UserEvent.OperationSelecting;
             return new RequestResultModel()
             {
                 Message = "Выберите операцию.",

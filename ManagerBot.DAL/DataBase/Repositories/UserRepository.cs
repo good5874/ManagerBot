@@ -5,7 +5,9 @@ using System.Linq;
 
 namespace ManagerBot.DAL.DataBase.Repositories
 {
-    public class UserRepository : BaseRepository<UserEntity>, IUserRepository
+    public class UserRepository
+        : BaseRepository<UserEntity>
+        , IUserRepository
     {
         private readonly BotDbContext context;
 

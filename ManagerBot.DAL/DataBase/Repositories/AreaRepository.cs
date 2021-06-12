@@ -9,8 +9,8 @@ using System.Threading.Tasks;
 namespace ManagerBot.DAL.DataBase.Repositories
 {
     public class AreaRepository
-        : BaseRepository<AreaEntity>,
-          IAreaRepository
+        : BaseRepository<AreaEntity>
+        , IAreaRepository
     {
         private readonly BotDbContext context;
 

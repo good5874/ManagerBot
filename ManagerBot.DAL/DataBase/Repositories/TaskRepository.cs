@@ -3,14 +3,15 @@ using ManagerBot.DAL.Entities;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace ManagerBot.DAL.DataBase.Repositories
 {
     public class TaskRepository
-        : BaseRepository<TaskEntity>,
-          ITaskRepository
+        : BaseRepository<TaskEntity>
+        , ITaskRepository
     {
         private readonly BotDbContext context;
 
@@ -26,6 +27,14 @@ namespace ManagerBot.DAL.DataBase.Repositories
                 .Include(u => u.User)
                 .Include(o => o.Operation)
                 .ToListAsync();
+        }
+
+        public async Task<TaskEntity> GetNotCompletedTaskWithIncludesByUserId(int userId)
+        {
+            return (await GetTaskWithIncludesAsync())
+                .Where(x => x.User.Id == userId)
+                .Where(x => x.IsFinish == false)
+                .FirstOrDefault();
         }
     }
 }

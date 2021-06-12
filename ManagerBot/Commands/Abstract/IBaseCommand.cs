@@ -5,8 +5,6 @@ using ManagerBot.Models;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-using Telegram.Bot.Args;
-
 namespace ManagerBot.Commands.Abstract
 {
     public interface IBaseCommand
