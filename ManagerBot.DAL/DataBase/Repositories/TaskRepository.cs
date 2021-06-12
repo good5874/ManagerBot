@@ -29,12 +29,29 @@ namespace ManagerBot.DAL.DataBase.Repositories
                 .ToListAsync();
         }
 
+        public async Task<IEnumerable<TaskEntity>> GetNotCompletedTasksWithIncludes()
+        {
+            return await context.Tasks
+                .Include(u => u.User)
+                .Include(o => o.Operation)
+                .Where(x => x.IsFinish == false)
+                .ToListAsync();
+        }
+
         public async Task<TaskEntity> GetNotCompletedTaskWithIncludesByUserId(int userId)
         {
             return (await GetTaskWithIncludesAsync())
                 .Where(x => x.User.Id == userId)
                 .Where(x => x.IsFinish == false)
                 .FirstOrDefault();
+        }
+
+        public async Task<TaskEntity> GetTaskWithIncludesByTaskId(int taskId)
+        {
+            return await context.Tasks
+                .Include(u => u.User)
+                .Include(o => o.Operation)
+                .FirstOrDefaultAsync(x => x.Id == taskId);
         }
     }
 }

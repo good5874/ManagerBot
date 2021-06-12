@@ -7,6 +7,8 @@ namespace ManagerBot.DAL.DataBase.Repositories.Abstract
     public interface ITaskRepository : IBaseRepository<TaskEntity>
     {
         public Task<IEnumerable<TaskEntity>> GetTaskWithIncludesAsync();
-        Task<TaskEntity> GetNotCompletedTaskWithIncludesByUserId(int userId);
+        public Task<IEnumerable<TaskEntity>> GetNotCompletedTasksWithIncludes();
+        public Task<TaskEntity> GetNotCompletedTaskWithIncludesByUserId(int userId);
+        public Task<TaskEntity> GetTaskWithIncludesByTaskId(int taskId);
     }
 }
