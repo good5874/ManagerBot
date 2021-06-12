@@ -1,5 +1,4 @@
-﻿using ManagerBot.DAL.Entity;
-
+﻿using ManagerBot.DAL.Entities;
 using Telegram.Bot.Types.ReplyMarkups;
 
 namespace ManagerBot.Models

@@ -1,5 +1,5 @@
 ﻿using ManagerBot.DAL.DataBase.Repositories.Abstract;
-using ManagerBot.DAL.Entity;
+using ManagerBot.DAL.Entities;
 
 using System.Linq;
 

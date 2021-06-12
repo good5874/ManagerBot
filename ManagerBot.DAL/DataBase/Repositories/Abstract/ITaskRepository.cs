@@ -4,9 +4,8 @@ using System.Threading.Tasks;
 
 namespace ManagerBot.DAL.DataBase.Repositories.Abstract
 {
-    public interface IAreaRepository
-        : IBaseRepository<AreaEntity>
+    public interface ITaskRepository : IBaseRepository<TaskEntity>
     {
-        Task<IEnumerable<AreaEntity>> GetAreasWithIncludesAsync();
+        public Task<IEnumerable<TaskEntity>> GetTaskWithIncludesAsync();
     }
 }

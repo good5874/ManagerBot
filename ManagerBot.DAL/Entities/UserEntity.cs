@@ -1,9 +1,8 @@
-﻿using ManagerBot.DAL.Entities;
-using ManagerBot.DAL.Entity.Enums;
+﻿using ManagerBot.DAL.Entities.Enums;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace ManagerBot.DAL.Entity
+namespace ManagerBot.DAL.Entities
 {
     public class UserEntity
     {
@@ -14,6 +13,8 @@ namespace ManagerBot.DAL.Entity
         public int TelegramId { get; set; }
 
         public string FullName { get; set; }
+
+        public double Salary { get; set; }
 
         public UserEvent? CurrentEvent { get; set; }
 
