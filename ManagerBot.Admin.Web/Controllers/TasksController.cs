@@ -22,5 +22,24 @@ namespace ManagerBot.Admin.Web.Controllers
             var tasks = await taskRepository.GetTaskWithIncludesAsync();
             return View(tasks.ToList());
         }
+
+        public async Task<ActionResult> CheckingTasks()
+        {
+            var tasks = await taskRepository.GetNotCompletedTasksWithIncludes();
+            return View(tasks.ToList());
+        }
+
+        public async Task<ActionResult> CompleteTask(int TaskId)
+        {
+            var task = await taskRepository.GetTaskWithIncludesByTaskId(TaskId);
+
+            task.User.Salary += task.Operation.Cost * task.AmountOperations;
+            task.IsFinish = true;
+
+            await taskRepository.UpdateAsync(task);
+
+            var tasks = await taskRepository.GetNotCompletedTasksWithIncludes();
+            return View(nameof(CheckingTasks), tasks.ToList());
+        }
     }
 }

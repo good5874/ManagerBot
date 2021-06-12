@@ -34,7 +34,7 @@
                 <td>
                     @foreach (var role in item.UserRoles.Select(e => e.Role.Name))
                     {
-                        @Html.Name(role)
+                        <p>@Html.Name(role)</p>
                     }
                 </td>
             </tr>
