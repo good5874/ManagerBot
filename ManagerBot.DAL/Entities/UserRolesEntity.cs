@@ -1,5 +1,4 @@
-﻿using ManagerBot.DAL.Entity;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace ManagerBot.DAL.Entities
 {

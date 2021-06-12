@@ -1,5 +1,5 @@
 ﻿using ManagerBot.Commands.Abstract;
-using ManagerBot.DAL.Entity;
+using ManagerBot.DAL.Entities;
 using ManagerBot.DAL.Entity.Enums;
 using ManagerBot.Models;
 using ManagerBot.Models.Constants;

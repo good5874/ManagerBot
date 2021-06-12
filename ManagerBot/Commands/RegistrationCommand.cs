@@ -1,6 +1,6 @@
 ﻿using ManagerBot.Commands.Abstract;
 using ManagerBot.DAL.DataBase.Repositories.Abstract;
-using ManagerBot.DAL.Entity;
+using ManagerBot.DAL.Entities;
 using ManagerBot.DAL.Entity.Enums;
 using ManagerBot.Models;
 

@@ -1,4 +1,4 @@
-﻿using ManagerBot.DAL.Entity;
+﻿using ManagerBot.DAL.Entities;
 using ManagerBot.DAL.Entity.Enums;
 using ManagerBot.Models;
 

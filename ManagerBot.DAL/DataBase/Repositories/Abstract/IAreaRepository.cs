@@ -1,5 +1,4 @@
-﻿using ManagerBot.DAL.Entity;
-
+﻿using ManagerBot.DAL.Entities;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 

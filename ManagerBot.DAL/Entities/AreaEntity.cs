@@ -1,8 +1,7 @@
-﻿using ManagerBot.DAL.Entities;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace ManagerBot.DAL.Entity
+namespace ManagerBot.DAL.Entities
 {
     public class AreaEntity
     {

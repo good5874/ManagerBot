@@ -1,4 +1,4 @@
-﻿using ManagerBot.DAL.Entity;
+﻿using ManagerBot.DAL.Entities;
 
 namespace ManagerBot.DAL.DataBase.Repositories.Abstract
 {

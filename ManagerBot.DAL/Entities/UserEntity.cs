@@ -1,9 +1,8 @@
-﻿using ManagerBot.DAL.Entities;
-using ManagerBot.DAL.Entity.Enums;
+﻿using ManagerBot.DAL.Entity.Enums;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace ManagerBot.DAL.Entity
+namespace ManagerBot.DAL.Entities
 {
     public class UserEntity
     {
