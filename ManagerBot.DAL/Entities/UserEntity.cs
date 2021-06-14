@@ -18,11 +18,8 @@ namespace ManagerBot.DAL.Entities
 
         public UserEvent? CurrentEvent { get; set; }
         public int CurrentAreaId { get; set; }
-        public AreaEntity CurrentArea { get; set; }
         public int CurrentProductId { get; set; }
-        public ProductCatalogEntity CurrentProduct { get; set; }
         public int CurrentOperationId { get; set; }
-        public OperationCatalogEntity CurrentOperation { get; set; }
         public List<TaskEntity> Tasks { get; set; }
 
         public List<CastomTaskEntity> CastomTasks { get; set; }

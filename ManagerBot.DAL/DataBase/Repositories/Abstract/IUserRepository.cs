@@ -9,6 +9,5 @@ namespace ManagerBot.DAL.DataBase.Repositories.Abstract
     {
         UserEntity FindByTelegramId(int telegramId);
         Task<IEnumerable<UserEntity>> GetUsersWithRolesAsync();
-        UserEntity FindByTelegramIdWithIncludes(int telegramId);
     }
 }

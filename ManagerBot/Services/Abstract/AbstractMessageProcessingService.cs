@@ -42,7 +42,7 @@ namespace ManagerBot.Services.Abstract
 
         protected virtual void SetUser(int telegramId)
         {
-            CurrentUser = userRepository.FindByTelegramIdWithIncludes(telegramId);
+            CurrentUser = userRepository.FindByTelegramId(telegramId);
         }
 
         protected async virtual Task ExecuteCommand(string nameCommand)

@@ -41,7 +41,7 @@ namespace ManagerBot.Commands
 
             if (user.CurrentEvent == UserEvent.BackProduct)
             {
-                var currentProduct = products.FirstOrDefault(x => x.Id == user.CurrentProduct.Id);
+                var currentProduct = products.FirstOrDefault(x => x.Id == user.CurrentProductId);
 
                 return GetResult(currentProduct, user);
             }

@@ -40,7 +40,7 @@ namespace ManagerBot.Commands
 
             if (user.CurrentEvent == UserEvent.BackProduct)
             {
-                var currentArea = areas.FirstOrDefault(x => x.Id == user.CurrentArea.Id);
+                var currentArea = areas.FirstOrDefault(x => x.Id == user.CurrentAreaId);
 
                 return GetResult(currentArea, user);
             }
