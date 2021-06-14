@@ -21,7 +21,7 @@ namespace ManagerBot.Services.Abstract
 
         protected UserEntity CurrentUser { get; set; }
         protected RequestResultModel Result { get; set; }
-        private static ReplyKeyboardMarkup mainMenu { get; } = new ReplyKeyboardMarkup(new KeyboardButton("Назад"));
+        private static ReplyKeyboardMarkup mainMenu { get; } = new ReplyKeyboardMarkup(new KeyboardButton("Вернуться"));
 
         public AbstractMessageProcessingService(
             ITelegramBotClient client,
