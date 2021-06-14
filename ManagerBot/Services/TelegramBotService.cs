@@ -10,6 +10,7 @@ namespace ManagerBot.Services
         private readonly ITelegramBotClient client;
         private readonly IContainer container;
 
+
         public TelegramBotService()
         {
             container = AutofacConfig.ConfigureContainer();

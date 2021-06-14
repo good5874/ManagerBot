@@ -5,8 +5,11 @@
         FirstVisit,
         Registration,
         AreasSelecting,
+        BackAreas,
         ProductSelecting,
+        BackProduct,
         OperationSelecting,
+        BackOperation,
         Work
     }
 }

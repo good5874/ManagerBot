@@ -25,7 +25,9 @@ namespace ManagerBot.Commands
 
         public override List<UserEvent> Events => new List<UserEvent>()
         {
-            UserEvent.FirstVisit, UserEvent.Registration
+            UserEvent.FirstVisit,
+            UserEvent.Registration,
+            UserEvent.BackAreas
         };
 
         public override bool OnContains(string message, UserEntity user)

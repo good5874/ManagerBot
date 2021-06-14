@@ -58,7 +58,8 @@ namespace ManagerBot.Services.Abstract
                 await client.SendTextMessageAsync(
                       chatId,
                       Result.Message,
-                      replyMarkup: Result.Buttons);
+                      replyMarkup: Result.Buttons,
+                      );
 
                 if (CurrentUser == null)
                 {

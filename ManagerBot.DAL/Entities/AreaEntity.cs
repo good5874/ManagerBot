@@ -1,9 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using ManagerBot.DAL.Entities.Abstract;
+
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace ManagerBot.DAL.Entities
 {
-    public class AreaEntity
+    public class AreaEntity : IConvertbleToTelegramButton
     {
         [Key]
         public int Id { get; set; }
