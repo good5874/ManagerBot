@@ -35,6 +35,8 @@ namespace ManagerBot.Commands
 
         public async override Task<RequestResultModel> ExecuteAsync(string message, UserEntity user)
         {
+            base.ProcessBackCommand(message, user);
+
             var operations = await operationCatalogRepository.GetAsync();
 
             var selectedOperation = operations.FirstOrDefault(x => x.Name.Trim().Replace("\n", "").Replace("\r", "") == message.Trim().Replace("\n", "").Replace("\r", ""));
@@ -57,6 +59,7 @@ namespace ManagerBot.Commands
                 UserId = user.Id
             });
 
+            user.CurrentOperationId = selectedOperation.Id;
             user.CurrentEvent = UserEvent.Work;
 
             return new RequestResultModel()

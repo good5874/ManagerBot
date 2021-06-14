@@ -9,6 +9,7 @@ using System.Linq;
 using System.Threading.Tasks;
 
 using Telegram.Bot;
+using Telegram.Bot.Types.ReplyMarkups;
 
 namespace ManagerBot.Services.Abstract
 {
@@ -20,7 +21,7 @@ namespace ManagerBot.Services.Abstract
 
         protected UserEntity CurrentUser { get; set; }
         protected RequestResultModel Result { get; set; }
-
+        private static ReplyKeyboardMarkup mainMenu { get; } = new ReplyKeyboardMarkup(new KeyboardButton("Назад"));
 
         public AbstractMessageProcessingService(
             ITelegramBotClient client,
@@ -41,7 +42,7 @@ namespace ManagerBot.Services.Abstract
 
         protected virtual void SetUser(int telegramId)
         {
-            CurrentUser = userRepository.FindByTelegramId(telegramId);
+            CurrentUser = userRepository.FindByTelegramIdWithIncludes(telegramId);
         }
 
         protected async virtual Task ExecuteCommand(string nameCommand)
@@ -58,8 +59,12 @@ namespace ManagerBot.Services.Abstract
                 await client.SendTextMessageAsync(
                       chatId,
                       Result.Message,
-                      replyMarkup: Result.Buttons,
-                      );
+                      replyMarkup: Result.Buttons);
+
+                await client.SendTextMessageAsync(
+                      chatId,
+                      string.Empty,
+                      replyMarkup: mainMenu);
 
                 if (CurrentUser == null)
                 {

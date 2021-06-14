@@ -27,11 +27,14 @@ namespace ManagerBot.Commands
 
         public override List<UserEvent> Events => new List<UserEvent>()
         {
-            UserEvent.ProductSelecting
+            UserEvent.ProductSelecting,
+            UserEvent.BackOperation
         };
 
         public async override Task<RequestResultModel> ExecuteAsync(string message, UserEntity user)
         {
+            base.ProcessBackCommand(message, user);
+
             var products = await productsCatalogRepository.GetProductsWithIncludesAsync();
 
             var selectedProduct = products.FirstOrDefault(x => x.Name.Trim().Replace("\n", "").Replace("\r", "") == message.Trim().Replace("\n", "").Replace("\r", ""));
@@ -40,7 +43,7 @@ namespace ManagerBot.Commands
             {
                 var currentProduct = products.FirstOrDefault(x => x.Id == user.CurrentProduct.Id);
 
-                return GetResult(currentProduct, user)
+                return GetResult(currentProduct, user);
             }
             if (selectedProduct == null)
             {
@@ -50,6 +53,8 @@ namespace ManagerBot.Commands
                     User = user
                 };
             }
+
+            user.CurrentProductId = selectedProduct.Id;
 
             return GetResult(selectedProduct, user);
         }

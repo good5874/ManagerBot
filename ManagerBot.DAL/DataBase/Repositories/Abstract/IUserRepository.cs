@@ -8,6 +8,7 @@ namespace ManagerBot.DAL.DataBase.Repositories.Abstract
         : IBaseRepository<UserEntity>
     {
         UserEntity FindByTelegramId(int telegramId);
-        public Task<IEnumerable<UserEntity>> GetUsersWithRolesAsync();
+        Task<IEnumerable<UserEntity>> GetUsersWithRolesAsync();
+        UserEntity FindByTelegramIdWithIncludes(int telegramId);
     }
 }

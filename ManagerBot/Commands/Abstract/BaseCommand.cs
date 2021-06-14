@@ -1,6 +1,7 @@
 ﻿using ManagerBot.DAL.Entities;
 using ManagerBot.DAL.Entities.Enums;
 using ManagerBot.Models;
+using ManagerBot.Models.Constants;
 
 using System.Collections.Generic;
 using System.Linq;
@@ -21,6 +22,14 @@ namespace ManagerBot.Commands.Abstract
             else
             {
                 return false;
+            }
+        }
+
+        protected void ProcessBackCommand(string message, UserEntity user)
+        {
+            if(message == "Вернуться")
+            {
+                user.CurrentEvent = UserEventsConstant.BackEvents.GetValueOrDefault(user.CurrentEvent.Value);
             }
         }
         public abstract Task<RequestResultModel> ExecuteAsync(string message, UserEntity user);

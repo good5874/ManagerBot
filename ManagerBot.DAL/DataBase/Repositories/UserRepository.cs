@@ -31,5 +31,16 @@ namespace ManagerBot.DAL.DataBase.Repositories
                 .ThenInclude(r => r.Role)
                 .ToListAsync();
         }
+
+        public async Task<UserEntity> FindByTelegramIdWithIncludes(int telegramId)
+        {
+            return await context.Users
+                .Include(c => c.Tasks)
+                .Include(c => c.CurrentOperation)
+                .Include(c => c.CurrentProduct)
+                .Include(c => c.CurrentArea)
+                .Include(c => c.UserRoles)
+                .FirstOrDefaultAsync(x => x.TelegramId == telegramId);
+        }
     }
 }

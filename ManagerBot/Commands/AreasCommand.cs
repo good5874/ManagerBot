@@ -32,6 +32,8 @@ namespace ManagerBot.Commands
 
         public override async Task<RequestResultModel> ExecuteAsync(string message, UserEntity user)
         {
+            base.ProcessBackCommand(message, user);
+
             var areas = await areaRepository.GetAreasWithIncludesAsync();
 
             var selectedArea = areas.FirstOrDefault(x => x.Name == message);
@@ -50,6 +52,8 @@ namespace ManagerBot.Commands
                     User = user
                 };
             }
+
+            user.CurrentAreaId = selectedArea.Id;
 
             return GetResult(selectedArea, user);
         }
