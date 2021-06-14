@@ -1,12 +1,14 @@
-﻿using System.Collections.Generic;
+﻿using ManagerBot.DAL.Entities.Abstract;
+
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace ManagerBot.DAL.Entities
 {
-    public class ProductCatalogEntity
+    public class ProductCatalogEntity : IConvertbleToTelegramButton
     {
         [Key]
-        public int id { get; set; }
+        public int Id { get; set; }
 
         [Required]
         public string Name { get; set; }

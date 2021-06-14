@@ -43,7 +43,7 @@ namespace ManagerBot.Commands
             {
                 return new RequestResultModel()
                 {
-                    Message = "Вы выбрали не существующий продукт!",
+                    Message = "Вы выбрали не существующую операцию!",
                     User = user
                 };
             }

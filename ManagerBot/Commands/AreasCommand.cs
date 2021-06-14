@@ -2,6 +2,7 @@
 using ManagerBot.DAL.DataBase.Repositories.Abstract;
 using ManagerBot.DAL.Entities;
 using ManagerBot.DAL.Entities.Enums;
+using ManagerBot.Mappers;
 using ManagerBot.Models;
 
 using System.Collections.Generic;
@@ -25,7 +26,8 @@ namespace ManagerBot.Commands
 
         public override List<UserEvent> Events => new List<UserEvent>()
         {
-            UserEvent.AreasSelecting
+            UserEvent.AreasSelecting,
+            UserEvent.BackProduct
         };
 
         public override async Task<RequestResultModel> ExecuteAsync(string message, UserEntity user)
@@ -34,6 +36,12 @@ namespace ManagerBot.Commands
 
             var selectedArea = areas.FirstOrDefault(x => x.Name == message);
 
+            if (user.CurrentEvent == UserEvent.BackProduct)
+            {
+                var currentArea = areas.FirstOrDefault(x => x.Id == user.CurrentArea.Id);
+
+                return GetResult(currentArea, user);
+            }
             if (selectedArea == null)
             {
                 return new RequestResultModel()
@@ -43,30 +51,18 @@ namespace ManagerBot.Commands
                 };
             }
 
-            var buttons = new List<List<InlineKeyboardButton>>();
+            return GetResult(selectedArea, user);
+        }
 
-            int processesCount = 0;
-            while (selectedArea.ProductCatalog.Count() > processesCount)
-            {
-                var productsButtonsLine = selectedArea.ProductCatalog.Skip(processesCount).Take(3);
-
-                buttons.Add(new List<InlineKeyboardButton>() { });
-
-                foreach (var product in productsButtonsLine)
-                {
-                    buttons.Last().Add(InlineKeyboardButton.WithCallbackData(product.Name.Trim().Replace("\n","").Replace("\r", "")));
-                }
-
-                processesCount += 3;
-            }
-
+        private RequestResultModel GetResult(AreaEntity area, UserEntity user)
+        {
             user.CurrentEvent = UserEvent.ProductSelecting;
 
             return new RequestResultModel()
             {
                 Message = "Выберите продукт.",
                 User = user,
-                Buttons = new InlineKeyboardMarkup(buttons)
+                Buttons = area.ProductCatalog.ConvertToTelegramButtons()
             };
         }
     }

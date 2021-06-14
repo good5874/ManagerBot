@@ -2,6 +2,7 @@
 using ManagerBot.DAL.DataBase.Repositories.Abstract;
 using ManagerBot.DAL.Entities;
 using ManagerBot.DAL.Entities.Enums;
+using ManagerBot.Mappers;
 using ManagerBot.Models;
 
 using System;
@@ -35,6 +36,12 @@ namespace ManagerBot.Commands
 
             var selectedProduct = products.FirstOrDefault(x => x.Name.Trim().Replace("\n", "").Replace("\r", "") == message.Trim().Replace("\n", "").Replace("\r", ""));
 
+            if (user.CurrentEvent == UserEvent.BackProduct)
+            {
+                var currentProduct = products.FirstOrDefault(x => x.Id == user.CurrentProduct.Id);
+
+                return GetResult(currentProduct, user)
+            }
             if (selectedProduct == null)
             {
                 return new RequestResultModel()
@@ -44,28 +51,18 @@ namespace ManagerBot.Commands
                 };
             }
 
-            var buttons = new List<List<InlineKeyboardButton>>();
+            return GetResult(selectedProduct, user);
+        }
 
-            int processesCount = 0;
-            while (selectedProduct.OperationCatalog.Count() > processesCount)
-            {
-                var productsButtonsLine = selectedProduct.OperationCatalog.Skip(processesCount).Take(3);
-
-                buttons.Add(new List<InlineKeyboardButton>() { });
-
-                foreach (var product in productsButtonsLine)
-                {
-                    buttons.Last().Add(InlineKeyboardButton.WithCallbackData(product.Name.Trim().Replace("\n", "").Replace("\r", "")));
-                }
-
-                processesCount += 3;
-            }
+        private RequestResultModel GetResult(ProductCatalogEntity product, UserEntity user)
+        {
             user.CurrentEvent = UserEvent.OperationSelecting;
+
             return new RequestResultModel()
             {
                 Message = "Выберите операцию.",
                 User = user,
-                Buttons = new InlineKeyboardMarkup(buttons)
+                Buttons = product.OperationCatalog.ConvertToTelegramButtons()
             };
         }
     }
