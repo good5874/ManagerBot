@@ -17,34 +17,42 @@ namespace ManagerBot.Commands
     public class ProductCommand : BaseCommand
     {
         private readonly IProductsCatalogRepository productsCatalogRepository;
+        private readonly IAreaRepository areaRepository;
 
         public override string Name => String.Empty;
 
-        public ProductCommand(IProductsCatalogRepository productsCatalogRepository)
+        public ProductCommand(IProductsCatalogRepository productsCatalogRepository,
+            IAreaRepository areaRepository)
         {
             this.productsCatalogRepository = productsCatalogRepository;
+            this.areaRepository = areaRepository;
         }
 
         public override List<UserEvent> Events => new List<UserEvent>()
         {
             UserEvent.ProductSelecting,
-            UserEvent.BackOperation
         };
 
         public async override Task<RequestResultModel> ExecuteAsync(string message, UserEntity user)
         {
-            base.ProcessBackCommand(message, user);
-
-            var products = await productsCatalogRepository.GetProductsWithIncludesAsync();
-
-            var selectedProduct = products.FirstOrDefault(x => x.Name.Trim().Replace("\n", "").Replace("\r", "") == message.Trim().Replace("\n", "").Replace("\r", ""));
-
-            if (user.CurrentEvent == UserEvent.BackProduct)
+            if (message == "Вернуться")
             {
-                var currentProduct = products.FirstOrDefault(x => x.Id == user.CurrentProductId);
+                user.CurrentEvent = UserEvent.AreasSelecting;
 
-                return GetResult(currentProduct, user);
+                user.CurrentAreaId = -1;
+                user.CurrentProductId = -1;
+                user.CurrentOperationId = -1;
+
+                return new RequestResultModel()
+                {
+                    Message = "Выберите участок",
+                    User = user,
+                    Buttons = (await areaRepository.GetAsync()).ConvertToTelegramButtons()
+                };
             }
+
+            var selectedProduct = productsCatalogRepository.GetWithInclude(x => x.Name == message, z => z.OperationCatalog).FirstOrDefault();
+
             if (selectedProduct == null)
             {
                 return new RequestResultModel()
@@ -55,19 +63,13 @@ namespace ManagerBot.Commands
             }
 
             user.CurrentProductId = selectedProduct.Id;
-
-            return GetResult(selectedProduct, user);
-        }
-
-        private RequestResultModel GetResult(ProductCatalogEntity product, UserEntity user)
-        {
             user.CurrentEvent = UserEvent.OperationSelecting;
 
             return new RequestResultModel()
             {
-                Message = "Выберите операцию.",
+                Message = "Выберите операцию",
                 User = user,
-                Buttons = product.OperationCatalog.ConvertToTelegramButtons()
+                Buttons = selectedProduct.OperationCatalog.ConvertToTelegramButtons()
             };
         }
     }

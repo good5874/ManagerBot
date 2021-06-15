@@ -9,8 +9,9 @@ namespace ManagerBot.Services
     public class MessageProcessingService : AbstractMessageProcessingService
     {
         public MessageProcessingService(ITelegramBotClient client,
+            ITaskRepository taskRepository,
             IUserRepository userRepository,
             IEnumerable<IBaseCommand> commands)
-            : base(client, userRepository, commands) { }
+            : base(client, userRepository, taskRepository, commands) { }
     }
 }

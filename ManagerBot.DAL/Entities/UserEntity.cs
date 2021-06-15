@@ -17,9 +17,9 @@ namespace ManagerBot.DAL.Entities
         public double Salary { get; set; }
 
         public UserEvent? CurrentEvent { get; set; }
-        public int CurrentAreaId { get; set; }
-        public int CurrentProductId { get; set; }
-        public int CurrentOperationId { get; set; }
+        public int CurrentAreaId { get; set; } = -1;
+        public int CurrentProductId { get; set; } = -1;
+        public int CurrentOperationId { get; set; } = -1;
         public List<TaskEntity> Tasks { get; set; }
 
         public List<CastomTaskEntity> CastomTasks { get; set; }

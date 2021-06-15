@@ -2,13 +2,10 @@
 using ManagerBot.DAL.DataBase.Repositories.Abstract;
 using ManagerBot.DAL.Entities;
 using ManagerBot.DAL.Entities.Enums;
+using ManagerBot.Mappers;
 using ManagerBot.Models;
-
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-
-using Telegram.Bot.Types.ReplyMarkups;
 
 namespace ManagerBot.Commands
 {
@@ -27,7 +24,6 @@ namespace ManagerBot.Commands
         {
             UserEvent.FirstVisit,
             UserEvent.Registration,
-            UserEvent.BackAreas
         };
 
         public override bool OnContains(string message, UserEntity user)
@@ -67,31 +63,14 @@ namespace ManagerBot.Commands
 
             var areas = await areaRepository.GetAsync();
 
-            var buttons = new List<List<InlineKeyboardButton>>();
-
-            int processesCount = 0;
-            while (areas.Count() > processesCount)
-            {
-                var areasButtonsLine = areas.Skip(processesCount).Take(3);
-
-                buttons.Add(new List<InlineKeyboardButton>() { });
-
-                foreach (var area in areasButtonsLine)
-                {
-                    buttons.Last().Add(InlineKeyboardButton.WithCallbackData(area.Name));
-                }
-
-                processesCount += 3;
-            }
             user.CurrentEvent = UserEvent.AreasSelecting;
+
             return new RequestResultModel()
             {
-                Message = "Выберите зону.",
+                Message = "Выберите участок",
                 User = user,
-                Buttons = new InlineKeyboardMarkup(buttons)
+                Buttons = areas.ConvertToTelegramButtons()
             };
-
-
         }
     }
 }

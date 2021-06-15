@@ -2,6 +2,7 @@
 using ManagerBot.DAL.DataBase.Repositories.Abstract;
 using ManagerBot.DAL.Entities;
 using ManagerBot.DAL.Entities.Enums;
+using ManagerBot.Mappers;
 using ManagerBot.Models;
 
 using System;
@@ -16,15 +17,18 @@ namespace ManagerBot.Commands
     public class OperationCommand : BaseCommand
     {
         private readonly IOperationCatalogRepository operationCatalogRepository;
+        private readonly IProductsCatalogRepository productsCatalogRepository;
         private readonly ITaskRepository taskRepository;
 
         public override string Name => string.Empty;
 
         public OperationCommand(
             IOperationCatalogRepository operationCatalogRepository,
+            IProductsCatalogRepository productsCatalogRepository,
             ITaskRepository taskRepository)
         {
             this.operationCatalogRepository = operationCatalogRepository;
+            this.productsCatalogRepository = productsCatalogRepository;
             this.taskRepository = taskRepository;
         }
 
@@ -35,11 +39,29 @@ namespace ManagerBot.Commands
 
         public async override Task<RequestResultModel> ExecuteAsync(string message, UserEntity user)
         {
-            base.ProcessBackCommand(message, user);
+            if (message == "Вернуться")
+            {
+                user.CurrentEvent = UserEvent.ProductSelecting;
+                user.CurrentProductId = -1;
+                user.CurrentOperationId = -1;
 
-            var operations = await operationCatalogRepository.GetAsync();
+                return new RequestResultModel()
+                {
+                    Message = "Выберите продукт",
+                    User = user,
+                    Buttons = productsCatalogRepository
+                                .GetWithInclude(x => x.Area.Id == user.CurrentAreaId, z => z.Area)
+                                .ConvertToTelegramButtons()
+                };
+            }
 
-            var selectedOperation = operations.FirstOrDefault(x => x.Name.Trim().Replace("\n", "").Replace("\r", "") == message.Trim().Replace("\n", "").Replace("\r", ""));
+            var selectedOperation = operationCatalogRepository
+                .GetWithInclude(x => x.Name == message
+                    && x.Product.Id ==user.CurrentProductId
+                    && x.Product.Area.Id == user.CurrentAreaId,
+                    z=> z.Product,
+                    c =>c.Product.Area)
+                .FirstOrDefault();
 
             if (selectedOperation == null)
             {
@@ -64,9 +86,8 @@ namespace ManagerBot.Commands
 
             return new RequestResultModel()
             {
-                Message = "Кол-во операций:",
+                Message = "Введите количество выполненных операций:",
                 User = user,
-                Buttons = new InlineKeyboardMarkup(InlineKeyboardButton.WithCallbackData("Отменить"))
             };
         }
     }

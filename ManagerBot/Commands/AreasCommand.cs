@@ -27,23 +27,28 @@ namespace ManagerBot.Commands
         public override List<UserEvent> Events => new List<UserEvent>()
         {
             UserEvent.AreasSelecting,
-            UserEvent.BackProduct
         };
 
         public override async Task<RequestResultModel> ExecuteAsync(string message, UserEntity user)
         {
-            base.ProcessBackCommand(message, user);
-
             var areas = await areaRepository.GetAreasWithIncludesAsync();
+
+            if (message == "Вернуться")
+            {
+                user.CurrentAreaId = -1;
+                user.CurrentProductId = -1;
+                user.CurrentOperationId = -1;
+
+                return new RequestResultModel()
+                {
+                    Message = "Выберите участок",
+                    User = user,
+                    Buttons = areas.ConvertToTelegramButtons()
+                };
+            }
 
             var selectedArea = areas.FirstOrDefault(x => x.Name == message);
 
-            if (user.CurrentEvent == UserEvent.BackProduct)
-            {
-                var currentArea = areas.FirstOrDefault(x => x.Id == user.CurrentAreaId);
-
-                return GetResult(currentArea, user);
-            }
             if (selectedArea == null)
             {
                 return new RequestResultModel()
@@ -54,20 +59,15 @@ namespace ManagerBot.Commands
             }
 
             user.CurrentAreaId = selectedArea.Id;
-
-            return GetResult(selectedArea, user);
-        }
-
-        private RequestResultModel GetResult(AreaEntity area, UserEntity user)
-        {
             user.CurrentEvent = UserEvent.ProductSelecting;
 
             return new RequestResultModel()
             {
                 Message = "Выберите продукт.",
                 User = user,
-                Buttons = area.ProductCatalog.ConvertToTelegramButtons()
+                Buttons = selectedArea.ProductCatalog.ConvertToTelegramButtons()
             };
+
         }
     }
 }

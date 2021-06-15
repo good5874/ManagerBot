@@ -10,6 +10,7 @@
         BackProduct,
         OperationSelecting,
         BackOperation,
-        Work
+        Work,
+        Back
     }
 }

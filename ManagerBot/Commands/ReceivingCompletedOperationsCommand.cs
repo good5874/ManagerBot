@@ -5,7 +5,9 @@ using ManagerBot.DAL.Entities.Enums;
 using ManagerBot.Models;
 
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
+using Telegram.Bot.Types.ReplyMarkups;
 
 namespace ManagerBot.Commands
 {
@@ -22,28 +24,27 @@ namespace ManagerBot.Commands
 
         public override List<UserEvent> Events => new List<UserEvent>()
         {
-            UserEvent.Work
+            UserEvent.Work,
         };
 
         public async override Task<RequestResultModel> ExecuteAsync(string message, UserEntity user)
         {
-            var notCompletedTask = await taskRepository
-                .GetNotCompletedTaskWithIncludesByUserId(user.Id);
 
-            if(message == "Отменить")
+            var notCompletedTasks = taskRepository
+                .GetWithInclude(x => x.UserId == user.Id && x.AmountOperations == 0,
+                                    z => z.Operation, c => c.Operation.Product, v => v.Operation.Product.Area);
+
+            if(notCompletedTasks.Count() > 1)
             {
-                await taskRepository.RemoveAsync(notCompletedTask);
-
-                user.CurrentEvent = UserEvent.OperationSelecting;
-
                 return new RequestResultModel()
                 {
-                    Message = "Операция с названием: " + notCompletedTask.Operation.Name + ", была отменена.",
-                    User = user
+                    Message = $"Ошибка, не удалось отправить"
                 };
             }
 
-            if(int.TryParse(message, out int amountOperations))
+            var notCompletedTask = notCompletedTasks.FirstOrDefault();
+
+            if (int.TryParse(message, out int amountOperations))
             {
                 notCompletedTask.AmountOperations = amountOperations;
 
@@ -51,11 +52,20 @@ namespace ManagerBot.Commands
                     .UpdateAsync(notCompletedTask);
 
                 user.CurrentEvent = UserEvent.OperationSelecting;
+                user.CurrentOperationId = -1;
 
                 return new RequestResultModel()
                 {
-                    Message = "Ваша работа отправлена мастеру на проверку!",
-                    User = user
+                    Message = $"Ваша работа отправлена мастеру на проверку!\n" +
+                    $"Участок: {notCompletedTask.Operation.Product.Area.Name}\n" +
+                    $"Продукт: {notCompletedTask.Operation.Product.Name}\n" +
+                    $"Операция: {notCompletedTask.Operation.Name}\n" +
+                    $"Количество выполненных операций: {notCompletedTask.AmountOperations}",
+                    User = user,
+                    Buttons = new InlineKeyboardMarkup(
+                        InlineKeyboardButton.WithCallbackData("Отменить", $"Отменить {notCompletedTask.Date}" +
+                        $" {notCompletedTask.AmountOperations}" +
+                        $" {notCompletedTask.UserId}"))
                 };
             }
             else
