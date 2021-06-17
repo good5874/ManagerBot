@@ -2,6 +2,7 @@
 {
     public interface IConvertbleToTelegramButton
     {
+        int Id { get; set; }
         string Name { get; set; }
     }
 }

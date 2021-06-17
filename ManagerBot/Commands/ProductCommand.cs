@@ -51,7 +51,7 @@ namespace ManagerBot.Commands
                 };
             }
 
-            var selectedProduct = productsCatalogRepository.GetWithInclude(x => x.Name == message, z => z.OperationCatalog).FirstOrDefault();
+            var selectedProduct = productsCatalogRepository.GetWithInclude(x => x.Id == int.Parse(message), z => z.OperationCatalog).FirstOrDefault();
 
             if (selectedProduct == null)
             {

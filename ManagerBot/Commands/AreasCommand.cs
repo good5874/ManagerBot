@@ -47,7 +47,7 @@ namespace ManagerBot.Commands
                 };
             }
 
-            var selectedArea = areas.FirstOrDefault(x => x.Name == message);
+            var selectedArea = areas.FirstOrDefault(x => x.Id == int.Parse(message));
 
             if (selectedArea == null)
             {

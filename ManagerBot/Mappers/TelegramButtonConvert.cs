@@ -22,7 +22,10 @@ namespace ManagerBot.Mappers
 
                 foreach (var button in buttonsLine)
                 {
-                    buttons.Last().Add(InlineKeyboardButton.WithCallbackData(button.Name.Trim().Replace("\n", "").Replace("\r", "")));
+                    string buttonData = button.Id.ToString();
+                    string buttonText = button.Name.Length >= 10 ? button.Name.Substring(0, 7) + "..." : button.Name;
+
+                    buttons.Last().Add(InlineKeyboardButton.WithCallbackData(buttonText, buttonData));
                 }
 
                 processesCount += 3;

@@ -56,7 +56,7 @@ namespace ManagerBot.Commands
             }
 
             var selectedOperation = operationCatalogRepository
-                .GetWithInclude(x => x.Name == message
+                .GetWithInclude(x => x.Id == int.Parse(message)
                     && x.Product.Id ==user.CurrentProductId
                     && x.Product.Area.Id == user.CurrentAreaId,
                     z=> z.Product,
