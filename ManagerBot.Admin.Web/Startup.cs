@@ -1,6 +1,7 @@
 using ManagerBot.DAL.DataBase;
 using ManagerBot.DAL.DataBase.Repositories;
 using ManagerBot.DAL.DataBase.Repositories.Abstract;
+using ManagerBot.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -27,14 +28,17 @@ namespace ManagerBot.Admin.Web
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<BotDbContext>();
+
             services.AddScoped<ITaskRepository, TaskRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
+            services.AddSingleton<TelegramBotService>();
             services.AddControllersWithViews();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, TelegramBotService bot)
         {
+            bot.StartProcessing();
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();

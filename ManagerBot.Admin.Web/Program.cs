@@ -14,10 +14,7 @@ namespace ManagerBot.Admin.Web
     {
         public static void Main(string[] args)
         {
-            TelegramBotService messageProcessingService = new TelegramBotService();
-            messageProcessingService.StartProcessing();
-
-            CreateHostBuilder(args).Build().Run();
+           CreateHostBuilder(args).Build().Run();
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
