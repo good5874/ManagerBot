@@ -23,7 +23,7 @@ namespace ManagerBot.Mappers
                 foreach (var button in buttonsLine)
                 {
                     string buttonData = button.Id.ToString();
-                    string buttonText = button.Name.Length >= 10 ? button.Name.Substring(0, 7) + "..." : button.Name;
+                    string buttonText = button.Name.Length >= 20 ? button.Name.Substring(0, 20) + "..." : button.Name;
 
                     buttons.Last().Add(InlineKeyboardButton.WithCallbackData(buttonText, buttonData));
                 }
