@@ -19,7 +19,7 @@ jobs:
     - name: Set up .NET Core
       uses: actions/setup-dotnet@v1
       with:
-        dotnet-version: '3.1.301'
+        dotnet-version: '5.0.x'
         include-prerelease: true
 
     - name: Build with dotnet
@@ -53,5 +53,5 @@ jobs:
       with:
         app-name: 'TrainingPortalWeb'
         slot-name: 'production'
-        publish-profile: ${{ secrets.AzureAppService_PublishProfile_7db5973c1df64eb49faf5f9e87bdcd0b }}
+        publish-profile: ${{ secrets.AzureAppService_PublishProfile_33ef7a749d354913ba9cb77845d6c169 }}
         package: .
