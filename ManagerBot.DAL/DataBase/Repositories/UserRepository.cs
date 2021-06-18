@@ -31,5 +31,11 @@ namespace ManagerBot.DAL.DataBase.Repositories
                 .ThenInclude(r => r.Role)
                 .ToListAsync();
         }
+
+        public async Task UpdateAll(IEnumerable<UserEntity> users)
+        {
+            context.Users.UpdateRange(users);
+            await context.SaveChangesAsync();
+        }
     }
 }
