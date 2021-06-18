@@ -49,57 +49,69 @@ namespace ManagerBot.Services.Abstract
 
         public virtual async Task Start(int telegramId, long chatId, string nameCommand)
         {
-            if (nameCommand.Contains("Отменить"))
+            try
             {
-                var ms = nameCommand.Split();
-                var task = taskRepository.GetWithInclude(x => x.Date.ToString() == ms[1] + " " + ms[2] &&
-                                            x.AmountOperations.ToString() == ms[3] &&
-                                            x.UserId.ToString() == ms[4]).FirstOrDefault();
-                if (task != null)
+                if (nameCommand.Contains("Отменить"))
                 {
-                    await client.SendTextMessageAsync(
-                            chatId,
-                            "Отчёт по операции: " + task.Operation.Name + ", был удалён",
-                            replyMarkup: mainMenu);
+                    var ms = nameCommand.Split();
+                    var task = taskRepository.GetWithInclude(x => x.Date.ToString() == ms[1] + " " + ms[2] &&
+                                                x.AmountOperations.ToString() == ms[3] &&
+                                                x.UserId.ToString() == ms[4],
+                                                z=>z.Operation).FirstOrDefault();
+                    if (task != null)
+                    {
+                        await client.SendTextMessageAsync(
+                                chatId,
+                                "Отчёт по операции: " + task.Operation.Name + ", был удалён",
+                                replyMarkup: mainMenu);
 
-                    await taskRepository.RemoveAsync(task);
-                    return;
+                        await taskRepository.RemoveAsync(task);
+                        return;
+                    }
+                    if (task == null)
+                    {
+                        await client.SendTextMessageAsync(
+                                chatId,
+                                "Не удалось удалить отчёт по операции",
+                                replyMarkup: mainMenu);
+                        return;
+                    }
                 }
-                if (task == null)
+
+                SetUser(telegramId);
+
+                if (nameCommand.Contains("Профиль"))
                 {
-                    await client.SendTextMessageAsync(
-                            chatId,
-                            "Не удалось удалить отчёт по операции",
-                            replyMarkup: mainMenu);
-                    return;
+                    if (CurrentUser != null)
+                    {
+                        await client.SendTextMessageAsync(
+                                chatId,
+                                $"ФИО: {CurrentUser.FullName}\n" +
+                                "Ваш счёт: " + CurrentUser.Salary,
+                                replyMarkup: mainMenu);
+                        return;
+                    }
+                    if (CurrentUser == null)
+                    {
+                        await client.SendTextMessageAsync(
+                                chatId,
+                                "Профиль не доступен",
+                                replyMarkup: mainMenu);
+                        return;
+                    }
                 }
+
+                await ExecuteCommand(nameCommand);
+                await Finish(telegramId, chatId);
+            }
+            catch
+            {
+                await client.SendTextMessageAsync(
+                        chatId,
+                        "Команды не существует",
+                        replyMarkup: mainMenu);
             }
 
-            SetUser(telegramId);
-
-            if (nameCommand.Contains("Профиль"))
-            {
-                if (CurrentUser != null)
-                {
-                    await client.SendTextMessageAsync(
-                            chatId,
-                            $"ФИО: {CurrentUser.FullName}\n" +
-                            "Ваш счёт: " + CurrentUser.Salary,
-                            replyMarkup: mainMenu);
-                    return;
-                }
-                if (CurrentUser == null)
-                {
-                    await client.SendTextMessageAsync(
-                            chatId,
-                            "Профиль не доступен",
-                            replyMarkup: mainMenu);
-                    return;
-                }
-            }
-
-            await ExecuteCommand(nameCommand);
-            await Finish(telegramId, chatId);
         }
 
         protected virtual void SetUser(int telegramId)
