@@ -51,6 +51,15 @@ namespace ManagerBot.Services.Abstract
         {
             try
             {
+                if (nameCommand == "Вернуться")
+                {
+                    await client.SendTextMessageAsync(
+                            chatId,
+                            "Закончите пожалуйста регистрацию",
+                            replyMarkup: mainMenu);
+                    return;
+                }
+
                 if (nameCommand.Contains("Отменить"))
                 {
                     var ms = nameCommand.Split();
@@ -82,20 +91,20 @@ namespace ManagerBot.Services.Abstract
 
                 if (nameCommand.Contains("Профиль"))
                 {
+                    if (CurrentUser.FullName == null)
+                    {
+                        await client.SendTextMessageAsync(
+                                chatId,
+                                "Профиль не доступен",
+                                replyMarkup: mainMenu);
+                        return;
+                    }
                     if (CurrentUser != null)
                     {
                         await client.SendTextMessageAsync(
                                 chatId,
                                 $"ФИО: {CurrentUser.FullName}\n" +
                                 "Ваш счёт: " + CurrentUser.Salary,
-                                replyMarkup: mainMenu);
-                        return;
-                    }
-                    if (CurrentUser == null)
-                    {
-                        await client.SendTextMessageAsync(
-                                chatId,
-                                "Профиль не доступен",
                                 replyMarkup: mainMenu);
                         return;
                     }
