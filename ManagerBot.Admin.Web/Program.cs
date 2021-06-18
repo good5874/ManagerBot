@@ -1,3 +1,4 @@
+using ManagerBot.Services;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
@@ -13,6 +14,9 @@ namespace ManagerBot.Admin.Web
     {
         public static void Main(string[] args)
         {
+            TelegramBotService messageProcessingService = new TelegramBotService();
+            messageProcessingService.StartProcessing();
+
             CreateHostBuilder(args).Build().Run();
         }
 

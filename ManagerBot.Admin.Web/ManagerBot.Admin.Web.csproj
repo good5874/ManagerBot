@@ -23,6 +23,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\ManagerBot.DAL\ManagerBot.DAL.csproj" />
+    <ProjectReference Include="..\ManagerBot\ManagerBot.csproj" />
   </ItemGroup>
 
 </Project>
